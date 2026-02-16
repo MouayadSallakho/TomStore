@@ -1,0 +1,263 @@
+:root{
+    --mainColorblue:#0D6EFD;
+    --mainColorBlack:#1C1C1C;
+    --mainGray:#8B96A5;
+    
+}
+
+p{
+    padding: 0px;
+    margin: 0px;
+}
+img{
+    max-width: 100%;
+}
+li{
+    list-style: none;
+}
+
+
+
+.navbar{
+    background-color: #FFFFFF;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+/* Start Logo */
+/* Start Logo */
+/* Start Logo */
+
+.navbar .navbar-brand{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.navbar .navbar-brand .style-logo{
+    position: relative;
+    width: 30px;
+    height: 30px;
+}
+.navbar .navbar-brand .style-logo span:nth-child(1){
+    position: absolute;
+    top: 0px;
+    left: 8px;
+    width: 18px;
+    height: 18px;
+    background-color: #6CA7FF;
+    border-radius: 50%;
+}
+.navbar .navbar-brand .style-logo span:nth-child(2){
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 14px;
+    height: 14px;
+    background-color: #5E9FFF;
+    border-radius: 50%;
+}
+.navbar .navbar-brand .style-logo span:nth-child(3){
+    position: absolute;
+    bottom: 2px;
+    right: 0px;
+    width: 10px;
+    height: 10px;
+    background-color: #96C0FF;
+    border-radius: 50%;
+}
+.navbar .navbar-brand .logo {
+font-family: Inter;
+font-weight: 700;
+font-style: Bold;
+font-size: 28px;
+leading-trim: NONE;
+line-height: 100%;
+letter-spacing: 0px;
+color: var(--mainColorblue);
+}
+/* End Logo */
+/* End Logo */
+/* End Logo */
+
+/* Start Search input */
+/* Start Search input */
+/* Start Search input */
+.navbar form{
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--mainColorblue);
+    border-radius: 10px;
+    overflow: hidden;
+}
+.navbar form input[type="search"]{
+    height: 37.6px;
+    /* height: 100%; */
+    min-width: 300px;
+    border: none;
+    padding-left: 12px;
+}
+.navbar form input[type="search"]:focus{
+    outline: none;
+}
+.navbar form input[type="search"]::placeholder{
+    font-family: Inter;
+font-weight: 400;
+font-size: 16px;
+leading-trim: NONE;
+line-height: 100%;
+letter-spacing: 0px;
+color: var(--mainGray);
+}
+.navbar form input[type="search"]:focus::placeholder{
+    opacity: 0;
+}
+.navbar form input[type="search"] + .form-select{
+    border: none;
+    border-left: 1px solid  var(--mainColorblue);
+    border-radius: 0px;
+}
+.navbar form input[type="search"] + .form-select + button{
+    border: none;
+    background: none;
+    height: 100%;
+    background: linear-gradient(180deg, #127FFF 0%, #0067FF 100%);
+        height: 37.6px;
+        padding-left: 14px;
+        padding-right: 14px;
+        color: #FFFFFF;
+/* font-family: Inter; */
+font-weight: 500;
+font-style: Medium;
+font-size: 16px;
+leading-trim: NONE;
+line-height: 100%;
+letter-spacing: 0%;
+text-align: center;
+ 
+}
+/* End  Search input */
+/* End  Search input */
+/* End  Search input */
+
+/* Start Icons on right  */
+/* Start Icons on right  */
+/* Start Icons on right  */
+ .holder-access{
+    display: flex;
+    align-items: center;
+}
+.holder-access .Link{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+}
+.navbar .holder-access .Link span{
+    color: var(--mainGray);
+    font-size: 17px;
+}
+.navbar .holder-access .Link p{
+
+        color: var(--mainGray);
+        font-family: Inter;
+font-weight: 400;
+font-style: Regular;
+font-size: 14px;
+leading-trim: NONE;
+line-height: 100%;
+letter-spacing: 0px;
+text-align: center;
+vertical-align: middle;
+
+}
+/* End Icons on right  */
+/* End Icons on right  */
+/* End Icons on right  */
+
+/* Start secondLine */
+/* Start secondLine */
+/* Start secondLine */
+header .secondLine{
+    background-color: #FFFFFF;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+
+}
+header .secondLine .container{
+        display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+header .secondLine .nav {
+    display: flex; 
+    align-items: center;
+    gap: 4px;
+    color: var(--mainGray);
+}
+header .secondLine .nav button{
+    background: none;
+border: none;
+font-family: Inter;
+font-weight: 500;
+font-style: Medium;
+font-size: 16px;
+leading-trim: NONE;
+line-height: 22px;
+letter-spacing: 0px;
+color: var(--mainColorBlack);
+display: flex;
+align-items: center;
+gap: 10px;
+padding-left: 0px;
+}
+header .secondLine .nav button div{
+    width: 17px;
+    height: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+header .secondLine .nav button div span{
+    width: 100%;
+    height: 2px;
+    background-color: var(--mainColorBlack);
+}
+header .secondLine .nav .nav-link{
+   
+        font-family: Inter;
+font-weight: 500;
+font-style: Medium;
+font-size: 16px;
+leading-trim: NONE;
+line-height: 22px;
+letter-spacing: 0px;
+color: var(--mainColorBlack);
+
+}
+header .secondLine .nav .form-select{
+            font-family: Inter;
+font-weight: 500;
+font-style: Medium;
+font-size: 16px;
+leading-trim: NONE;
+line-height: 22px;
+letter-spacing: 0px;
+width: fit-content;
+border: none;
+color: var(--mainColorBlack);
+padding-right: 25px;
+}
+header .secondLine .holder-ship-lang{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+header .secondLine .holder-ship-lang .form-select{
+    width: fit-content;
+
+}
+/* End  secondLine*/
+/* End  secondLine*/
+/* End  secondLine*/

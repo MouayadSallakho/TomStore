@@ -1,0 +1,708 @@
+/* Details.css (FULL UPDATED VERSION) */
+
+.breadcrumb {
+  padding-bottom: 0px;
+}
+
+/* ===========================
+   TOP SECTION WRAPPER
+=========================== */
+.Detail_top .container {
+  background: #fff;
+  border: 1px solid #eee;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+/* ===========================
+   MAIN IMAGE
+=========================== */
+.Detail_top .container .col-lg-3 .holderMainImage {
+  border: 1px solid #dacbcb;
+  margin-bottom: 12px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.Detail_top .container .col-lg-3 .holderMainImage img {
+  width: 100%;
+  height: 320px;
+  object-fit: contain;
+  display: block;
+  transition: transform 0.25s ease;
+}
+
+/* small premium hover */
+.Detail_top .container .col-lg-3 .holderMainImage:hover img {
+  transform: scale(1.03);
+}
+
+/* ===========================
+   THUMBNAILS GRID
+=========================== */
+.Detail_top .container .col-lg-3 .holderMainImage + .row {
+  --bs-gutter-x: 4px;
+  --bs-gutter-y: 8px;
+  flex-wrap: wrap;
+}
+
+.Detail_top .container .col-lg-3 .holderMainImage + .row > .col-2 {
+  flex: 0 0 auto;
+  width: calc(100% / 6);
+}
+
+.Detail_top .container .col-lg-3 .holderMainImage + .row .col-2 {
+  border: 1px solid #dacbcb;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.Detail_top .container .col-lg-3 .holderMainImage + .row .col-2:hover {
+  border-color: #0d6efd;
+}
+
+.Detail_top .container .col-lg-3 .holderMainImage + .row .col-2 img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  display: block;
+}
+
+/* active thumbnail highlight */
+.thumbActive {
+  border: 2px solid #0d6efd !important;
+}
+
+/* ===========================
+   LEFT INFO (TITLE + STOCK)
+=========================== */
+.Detail_top .container .col-lg-6 > p:first-child {
+  color: #00b517;
+  font-family: Inter;
+  font-weight: 400;
+  font-size: 16px;
+  leading-trim: NONE;
+  line-height: 24px;
+  letter-spacing: -0.2px;
+}
+
+.Detail_top .container .col-lg-6 > p:first-child + h4 {
+  font-family: Inter;
+  font-weight: 600;
+  font-style: Semi Bold;
+  font-size: 20px;
+  leading-trim: NONE;
+  line-height: 28px;
+  letter-spacing: -0.2px;
+  color: #1c1c1c;
+}
+
+/* ===========================
+   SMALL INFO LINE (rating / reviews / stock)
+=========================== */
+.Detail_top .container .col-lg-6 .SmallInfo {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap; /* better on small screens */
+}
+
+.Detail_top .container .col-lg-6 .SmallInfo .star {
+  display: flex;
+  align-items: center;
+}
+
+.Detail_top .container .col-lg-6 .SmallInfo .star ul {
+  display: flex;
+  align-items: center;
+  margin-right: 5px;
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+.Detail_top .container .col-lg-6 .SmallInfo .star ul li svg {
+  color: #ff9017;
+}
+
+.Detail_top .container .col-lg-6 .SmallInfo .star span {
+  font-family: Inter;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 16px;
+  leading-trim: NONE;
+  line-height: 100%;
+  letter-spacing: 0px;
+  color: #ff9017;
+}
+
+.Detail_top .container .col-lg-6 .SmallInfo .point {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #dbdbdb;
+  margin: 0px 5px;
+}
+
+.Detail_top .container .col-lg-6 .SmallInfo .point + div {
+  font-family: Inter;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 16px;
+  leading-trim: NONE;
+  line-height: 100%;
+  letter-spacing: 0px;
+  color: #787a80;
+}
+
+/* ===========================
+   PRICE BOX
+=========================== */
+.Detail_top .container .col-lg-6 .infoAboutPrice {
+  background-color: #fff0df;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+}
+
+.Detail_top .container .col-lg-6 .infoAboutPrice .middle {
+  padding-left: 10px;
+  border-left: 1px solid;
+}
+
+.Detail_top .container .col-lg-6 .infoAboutPrice div .active {
+  font-family: Inter;
+  font-weight: 600;
+  font-style: Semi Bold;
+  font-size: 18px;
+  leading-trim: NONE;
+  line-height: 100%;
+  letter-spacing: 0px;
+  color: #fa3434;
+}
+
+.Detail_top .container .col-lg-6 .infoAboutPrice div p {
+  margin: 0px;
+  font-family: Inter;
+  font-weight: 600;
+  font-style: Semi Bold;
+  font-size: 18px;
+  leading-trim: NONE;
+  line-height: 100%;
+  letter-spacing: 0px;
+  color: #1c1c1c;
+  margin-bottom: 5px;
+}
+
+.Detail_top .container .col-lg-6 .infoAboutPrice div span {
+  font-family: Inter;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 13px;
+  leading-trim: NONE;
+  line-height: 100%;
+  letter-spacing: 0px;
+  color: #606060;
+}
+
+/* ===========================
+   SPECS TABLE
+=========================== */
+.Detail_top .container .col-lg-6 .tableDetails .litl-color {
+  font-family: Inter;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 16px;
+  leading-trim: NONE;
+  line-height: 100%;
+  letter-spacing: 0px;
+  color: #8b96a5;
+}
+
+.Detail_top .container .col-lg-6 .tableDetails .litl-color + div {
+  font-family: Inter;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 16px;
+  leading-trim: NONE;
+  line-height: 100%;
+  letter-spacing: 0px;
+  color: #505050;
+}
+
+/* ===========================
+   SELLER SIDE CARD
+=========================== */
+.Detail_top .container .col-lg-3 .content {
+  border: 1px solid #cbc2c2;
+  padding: 12px;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.Detail_top .container .col-lg-3 .RRR {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #cbc2c2;
+}
+
+.Detail_top .container .col-lg-3 .RRR img {
+  width: 65px;
+  height: 65px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.Detail_top .container .col-lg-3 .RRR p {
+  margin-bottom: 0px;
+}
+
+.Detail_top .container .col-lg-3 .holderSVG {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.Detail_top .container .col-lg-3 .holderSVG p {
+  font-family: Inter;
+  font-weight: 400;
+  font-size: 16px;
+  leading-trim: NONE;
+  line-height: 24px;
+  letter-spacing: -0.2px;
+  color: #8b96a5;
+}
+
+.Detail_top .container .col-lg-3 .holderSVG svg {
+  color: #8b96a5;
+  margin-right: 20px;
+}
+
+.Detail_top .container .col-lg-3 .holderButtons button:last-child {
+  background-color: white;
+  color: #0d6efd;
+}
+
+.Detail_top .container .col-lg-3 .saveForLater span {
+  font-family: Inter;
+  font-weight: 500;
+  font-size: 16px;
+  leading-trim: NONE;
+  line-height: 24px;
+  letter-spacing: -0.1px;
+  color: #0d6efd;
+  text-align: center;
+  display: block;
+  margin-top: 20px;
+}
+
+.Detail_top .container .col-lg-3 .saveForLater svg {
+  margin-right: 10px;
+}
+
+/* ===========================
+   BOTTOM SECTION
+=========================== */
+.DetailBottom {
+  border-radius: 10px;
+  padding-bottom: 30px;
+  padding-top: 30px;
+}
+
+.DetailBottom .container {
+  border-radius: 10px;
+  border: 1px solid #eee;
+  padding-bottom: 30px;
+  padding-top: 30px;
+  background-color: white;
+}
+
+/* Tabs content */
+.DetailBottom .col-lg-9 .firstTap p {
+  font-family: Inter;
+  font-weight: 400;
+  font-size: 16px;
+  leading-trim: NONE;
+  line-height: 24px;
+  letter-spacing: -0.2px;
+  color: #505050;
+}
+
+.DetailBottom .col-lg-9 .firstTap .colortitle {
+  background-color: #eff2f4;
+}
+
+.DetailBottom .col-lg-9 .firstTap ul {
+  padding-top: 20px;
+  margin-bottom: 0;
+}
+
+.DetailBottom .col-lg-9 .firstTap ul li {
+  font-family: Inter;
+  font-weight: 400;
+  font-size: 16px;
+  leading-trim: NONE;
+  line-height: 24px;
+  letter-spacing: -0.2px;
+  color: #505050;
+  list-style: none;
+}
+
+.DetailBottom .col-lg-9 .firstTap ul li svg {
+  margin-right: 10px;
+}
+
+/* ===========================
+   RIGHT SIDE: YOU MAY LIKE
+=========================== */
+
+
+.Recomended .container{
+    background-color: #FFFFFF;
+    padding: 15px;
+    padding-bottom: 20px;
+    border-radius: 6px;
+        border: 1px solid #eee;
+}
+.Recomended h4 {
+  font-family: Inter;
+  font-weight: 600;
+  font-style: Semi Bold;
+  font-size: 16px;
+  leading-trim: NONE;
+  line-height: 100%;
+  letter-spacing: 0px;
+  margin-bottom: 15px;
+
+  font-family: Inter;
+font-weight: 600;
+font-style: Semi Bold;
+font-size: 20px;
+leading-trim: NONE;
+line-height: 28px;
+letter-spacing: -0.2px;
+
+}
+.right-Like .Boxx {
+    display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  padding: 10px;
+  transition: 0.2s;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.114);
+}
+
+.right-Like .Boxx:hover {
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
+  transform: translateY(-2px);
+}
+
+.right-Like .Boxx .image {
+    margin-bottom: 10px;
+  padding: 5px;
+  width: fit-content;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  background: #EEEEEE;
+}
+
+.right-Like .Boxx img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.right-Like .Boxx .text p {
+  font-family: Inter;
+  font-weight: 400;
+  font-size: 16px;
+  leading-trim: NONE;
+  line-height: 24px;
+  letter-spacing: -0.2px;
+  margin: 0;
+}
+
+.right-Like .text span {
+  font-family: Inter;
+  font-weight: 400;
+  font-size: 16px;
+  leading-trim: NONE;
+  line-height: 24px;
+  letter-spacing: -0.2px;
+  color: #8b96a5;
+}
+
+
+/* ---------- Swiper (mobile + tablet) ---------- */
+.recoSwiperWrap {
+  display: block;
+}
+
+.recoGridWrap {
+  display: none;
+}
+
+/* show grid only on desktop */
+@media (min-width: 992px) {
+  .recoSwiperWrap {
+    display: none;
+  }
+  .recoGridWrap {
+    display: flex;
+  }
+}
+
+/* swiper dots spacing */
+.Recomended .swiper {
+  padding-bottom: 30px;
+}
+
+/* keep card height nice inside swiper */
+.Recomended .swiper-slide {
+  height: auto;
+}
+
+/* optional: nicer arrows */
+.Recomended .swiper-button-prev,
+.Recomended .swiper-button-next {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1px solid #eee;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+}
+
+.Recomended .swiper-button-prev::after,
+.Recomended .swiper-button-next::after {
+  font-size: 14px;
+  font-weight: 800;
+  color: #1c1c1c;
+}
+
+
+/* ===========================
+   RESPONSIVE FIXES
+=========================== */
+@media (max-width: 991px) {
+  .Detail_top .container .col-lg-6 .infoAboutPrice {
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .Detail_top .container .col-lg-6 .infoAboutPrice .middle {
+    border-left: none;
+    padding-left: 0;
+  }
+}
+
+@media (max-width: 576px) {
+  .Detail_top .container .col-lg-3 .holderMainImage img {
+    height: 260px;
+  }
+
+  .Detail_top .container .col-lg-3 .holderMainImage + .row > .col-2 {
+    width: calc(100% / 3);
+  }
+}
+
+
+/* Start baner */
+
+.banner {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  padding: 24px;
+  background: #2f80ff;
+  color: #fff;
+}
+
+.banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #0b5ed7;
+  clip-path: polygon(60% 0, 100% 0, 100% 100%, 45% 100%); /* diagonal shape */
+}
+
+.bannerContent {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+
+
+
+
+
+/* =========================
+   SKELETON - Details (Premium)
+========================= */
+
+.detSkMain,
+.detSkThumb,
+.detSkLine,
+.detSkAvatar,
+.detSkBtn,
+.detSkSave {
+  background: #e9ecef;
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+/* shimmer */
+.detSkMain::after,
+.detSkThumb::after,
+.detSkLine::after,
+.detSkAvatar::after,
+.detSkBtn::after,
+.detSkSave::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.65) 50%,
+    rgba(255,255,255,0) 100%
+  );
+  animation: detShimmer 1.2s infinite;
+}
+
+@keyframes detShimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* main image skeleton */
+.detSkMain {
+  height: 320px;
+  margin-bottom: 12px;
+}
+
+/* thumbs row */
+.detSkThumbs {
+  row-gap: 10px;
+}
+
+.detSkThumb {
+  width: 100%;
+  aspect-ratio: 1/1;
+  border-radius: 8px;
+}
+
+/* lines */
+.detSkLine {
+  height: 14px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+
+/* widths */
+.detSkLine.w-30 { width: 30%; }
+.detSkLine.w-40 { width: 40%; }
+.detSkLine.w-50 { width: 50%; }
+.detSkLine.w-60 { width: 60%; }
+.detSkLine.w-70 { width: 70%; }
+.detSkLine.w-80 { width: 80%; }
+.detSkLine.w-90 { width: 90%; }
+
+/* price box skeleton layout */
+.detSkPriceBox {
+  display: flex;
+  gap: 14px;
+  margin: 12px 0 18px;
+}
+
+.detSkPriceCol {
+  flex: 1;
+}
+
+/* table skeleton */
+.detSkTable {
+  border: 1px solid #e3e3e3;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.detSkTableRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px;
+  border-top: 1px solid #ededed;
+}
+
+.detSkTableRow:first-child {
+  border-top: 0;
+}
+
+/* seller card */
+.detSkSellerCard {
+  border: 1px solid #e3e3e3;
+  border-radius: 12px;
+  padding: 14px;
+  background: #fff;
+}
+
+.detSkSellerTop {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 14px;
+  align-items: center;
+}
+
+.detSkAvatar {
+  width: 65px;
+  height: 65px;
+  border-radius: 12px;
+  flex: 0 0 auto;
+}
+
+.detSkSellerText {
+  flex: 1;
+}
+
+.detSkBtn {
+  height: 44px;
+  border-radius: 12px;
+  margin-top: 12px;
+}
+
+.detSkSave {
+  height: 46px;
+  margin-top: 12px;
+  border-radius: 12px;
+}
+
+/* reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .detSkMain::after,
+  .detSkThumb::after,
+  .detSkLine::after,
+  .detSkAvatar::after,
+  .detSkBtn::after,
+  .detSkSave::after {
+    animation: none !important;
+  }
+}

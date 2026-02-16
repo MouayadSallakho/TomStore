@@ -1,0 +1,239 @@
+:root {
+    --mainColorblue: #0D6EFD;
+    --mainColorBlack: #1C1C1C;
+    --mainGray: #8B96A5;
+}
+
+ul {
+    padding: 0px;
+    margin: 0px;
+}
+
+p {
+    padding: 0px;
+    margin: 0px;
+}
+
+img {
+    max-width: 100%;
+}
+
+a {
+    text-decoration: none;
+
+}
+
+
+
+
+
+.ShowProducts {
+
+    margin-bottom: 20px;
+    border-radius: 6px !important;
+}
+
+.ShowProducts .col-lg-3 {
+    background-image: url(../../Images/background_canab.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: 1px solid #ccc;
+    margin: 0px;
+    /* border-radius: 7px; */
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+}
+
+.ShowProducts .row {
+    background-color: #FFFFFF;
+    border-radius: 6px !important;
+    overflow: hidden;
+}
+
+
+.ShowProducts .col-lg-3 div {
+    padding: 16px;
+}
+
+.ShowProducts .col-lg-3 div>p {
+    font-family: Inter;
+    font-weight: 600;
+    font-style: Semi Bold;
+    font-size: 20px;
+    leading-trim: NONE;
+    line-height: 28px;
+    letter-spacing: -0.2px;
+    margin-bottom: 20px;
+    max-width: 150px;
+
+}
+
+.ShowProducts .col-lg-3 .link {
+    font-family: Inter;
+    font-weight: 500;
+    font-style: Medium;
+    font-size: 16px;
+    leading-trim: NONE;
+    line-height: 100%;
+    letter-spacing: 0%;
+    text-align: center;
+    color: var(--mainColorBlack);
+    padding: 10px 14px;
+    background-color: #FFFFFF;
+    border-radius: 7px;
+}
+
+
+
+
+.ShowProducts .col-lg-9 {
+    border: 1px solid #ccc;
+    border-left: 0px;
+    overflow: hidden;
+    border-bottom-right-radius: 7px;
+    border-top-right-radius: 7px;
+}
+
+.ShowProducts .container {
+    padding: 0px;
+}
+
+.ShowProducts .col-lg-9 {
+    padding: 0px;
+}
+
+
+
+.ShowProducts .col-lg-9 .swiper-slide {
+    margin: 0px;
+    height: auto;
+    display: flex;
+    border-bottom: 1px solid #eee;
+}
+
+.ShowProducts .col-lg-9 .swiper-slide .prodInner {
+    padding: 16px;
+    border-left: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    /* flex-direction: column; */
+    /* text-align: center; */
+    position: relative;
+}
+
+.ShowProducts .col-lg-9 .swiper-slide .prodInner .prodTitle {
+    font-family: Inter;
+    font-weight: 400;
+    font-style: Regular;
+    font-size: 16px;
+    leading-trim: NONE;
+    line-height: 100%;
+    letter-spacing: 0px;
+
+}
+
+.ShowProducts .col-lg-9 .swiper-slide .prodInner .prodPrice {
+    font-family: Inter;
+    font-weight: 400;
+    font-style: Regular;
+    font-size: 13px;
+    leading-trim: NONE;
+    line-height: 100%;
+    letter-spacing: 0px;
+    color: var(--mainGray);
+}
+
+.ShowProducts .col-lg-9 .swiper-slide .prodInner .prodImg {
+    max-width: 100%;
+    object-fit: cover;
+    height: 110px;
+}
+
+@media(max-width:768px) {
+    .ShowProducts .row {
+        gap: 10px;
+    }
+
+    .ShowProducts .col-lg-9 {
+        /* border-radius: 7px; */
+        overflow: hidden;
+        border-bottom-right-radius: 7px;
+        border-top-right-radius: 7px;
+        border-radius: 7px;
+    }
+}
+
+
+
+/* Skelton 
+ */
+
+
+ /* =========================
+   SKELETON - ShowProducts
+========================= */
+
+.ShowProducts .prodSkeleton {
+  pointer-events: none;
+}
+
+.ShowProducts .sk-prod-title,
+.ShowProducts .sk-prod-price,
+.ShowProducts .sk-prod-img {
+  background: #e9ecef;
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* title skeleton */
+.ShowProducts .sk-prod-title {
+  width: 140px;
+  height: 14px;
+  margin-bottom: 10px;
+}
+
+/* price skeleton */
+.ShowProducts .sk-prod-price {
+  width: 110px;
+  height: 12px;
+}
+
+/* image skeleton (same place as prodImg) */
+.ShowProducts .sk-prod-img {
+  width: 80px;        /* adjust if your prodImg is larger */
+  height: 80px;
+  border-radius: 12px;
+}
+
+/* shimmer animation */
+.ShowProducts .sk-prod-title::after,
+.ShowProducts .sk-prod-price::after,
+.ShowProducts .sk-prod-img::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.6) 50%,
+    rgba(255,255,255,0) 100%
+  );
+  animation: showProdShimmer 1.2s infinite;
+}
+
+@keyframes showProdShimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .ShowProducts .sk-prod-title::after,
+  .ShowProducts .sk-prod-price::after,
+  .ShowProducts .sk-prod-img::after {
+    animation: none !important;
+  }
+}

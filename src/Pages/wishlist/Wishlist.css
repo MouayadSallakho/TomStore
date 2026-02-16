@@ -1,0 +1,206 @@
+:root {
+  --mainColorblue: #0D6EFD;
+  --mainColorBlack: #1C1C1C;
+  --mainGray: #8B96A5;
+
+  --bg: #f7fafc;
+  --card: #ffffff;
+  --border: #DEE2E7;
+
+  --radius: 12px;
+  --shadow: 0 10px 24px rgba(0, 0, 0, .06);
+}
+
+body {
+  background: var(--bg);
+  font-family: Inter, sans-serif;
+}
+
+a { text-decoration: none; }
+
+/* same breadcrumb wrapper name */
+.SorcThePage {
+  padding: 14px 0;
+}
+
+.wishlistTitleBar {
+  padding: 12px 0 18px;
+}
+
+.wishlistTitleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.wishlistTitleBar h2 {
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: -0.2px;
+  color: var(--mainColorBlack);
+}
+
+.wishlistContent {
+  padding-bottom: 30px;
+}
+
+.wishlistEmpty {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 28px;
+  text-align: center;
+}
+
+.wishlistEmpty h4 {
+  font-weight: 800;
+  color: var(--mainColorBlack);
+  margin-bottom: 8px;
+}
+
+.wishlistEmpty p {
+  color: var(--mainGray);
+  margin-bottom: 16px;
+}
+
+/* buttons */
+.btnBackShop {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: var(--mainColorblue);
+  color: #fff;
+  font-weight: 700;
+  border: 1px solid var(--mainColorblue);
+  transition: .2s;
+}
+
+.btnBackShop:hover {
+  opacity: .92;
+  transform: translateY(-1px);
+}
+
+.btnClearWishlist {
+  border: 1px solid var(--border);
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-weight: 800;
+  font-size: 13px;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.btnClearWishlist:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, .08);
+}
+
+/* Swiper */
+.wishlistSwiper {
+  padding-bottom: 28px;
+}
+
+/* simple equal height */
+.wishCard {
+/* ✅ simplest equal height */
+  display: flex;
+  flex-direction: column;
+
+  border: 1px solid var(--border);
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.wishImg {
+  height: 240px;
+  background: #E9EEF7;
+  border-bottom: 1px solid rgba(139, 150, 165, .25);
+}
+
+.wishImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.wishInfo {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.productLink {
+  color: inherit;
+  display: block;
+}
+
+.productLink:hover .wishTitle {
+  text-decoration: underline;
+}
+
+.wishTitle {
+  font-weight: 800;
+  color: var(--mainColorBlack);
+  margin-bottom: 6px;
+  font-size: 14px;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.wishPrice {
+  font-weight: 900;
+  color: var(--mainColorblue);
+  margin-bottom: 10px;
+}
+
+.wishActions {
+  display: flex;
+  gap: 10px;
+  margin-top: auto; /* ✅ buttons always bottom */
+}
+
+.btnMoveToCart {
+  flex: 1;
+  border: 1px solid rgba(13, 110, 253, .25);
+  background: #E5F1FF;
+  color: var(--mainColorblue);
+  border-radius: 10px;
+  padding: 9px 10px;
+  font-weight: 900;
+  font-size: 13px;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.btnMoveToCart:hover {
+  transform: translateY(-1px);
+}
+
+.btnRemoveWish {
+  border: 1px solid rgba(250, 52, 52, .25);
+  background: rgba(250, 52, 52, .08);
+  color: #FA3434;
+  border-radius: 10px;
+  padding: 9px 10px;
+  font-weight: 900;
+  font-size: 13px;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.btnRemoveWish:hover {
+  transform: translateY(-1px);
+}

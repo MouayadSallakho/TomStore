@@ -1,0 +1,114 @@
+/* Start Footer */
+footer{
+    padding-top: 50px;
+    padding-bottom: 50px;
+    background-color: #FFFFFF;
+}
+
+
+
+
+
+footer .navbar-brand{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 12px;
+}
+footer .navbar-brand .style-logo{
+    position: relative;
+    width: 30px;
+    height: 30px;
+}
+footer .navbar-brand .style-logo span:nth-child(1){
+    position: absolute;
+    top: 0px;
+    left: 8px;
+    width: 18px;
+    height: 18px;
+    background-color: #6CA7FF;
+    border-radius: 50%;
+}
+footer .navbar-brand .style-logo span:nth-child(2){
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 14px;
+    height: 14px;
+    background-color: #5E9FFF;
+    border-radius: 50%;
+}
+footer .navbar-brand .style-logo span:nth-child(3){
+    position: absolute;
+    bottom: 2px;
+    right: 0px;
+    width: 10px;
+    height: 10px;
+    background-color: #96C0FF;
+    border-radius: 50%;
+}
+footer .navbar-brand .logo {
+font-family: Inter;
+font-weight: 700;
+font-style: Bold;
+font-size: 28px;
+leading-trim: NONE;  
+line-height: 100%;
+letter-spacing: 0px;
+color: var(--mainColorblue);
+}
+
+
+
+
+footer .navbar-brand + p{
+    font-family: Inter;
+font-weight: 400;
+font-style: Regular;
+font-size: 16px;
+leading-trim: NONE;
+line-height: 24px;
+letter-spacing: -0.2px;
+color: #505050;
+margin-bottom: 12px;
+}
+footer .social {
+    display: flex;
+    align-items: center;
+}
+footer .social div{
+    display: grid;
+    place-items: center;
+    width: 30px ;
+    height: 30px;
+    background-color: #bdc4cd;
+    margin-right: 10px;
+    border-radius: 50%;
+
+}
+footer .social div svg{
+    color: #ffffff;
+}
+footer .col-lg-9 p{
+    font-family: Inter;
+font-weight: 500;
+font-style: Medium;
+font-size: 16px;
+leading-trim: NONE;
+line-height: 22px;
+letter-spacing: 0px;
+color: #1C1C1C;
+margin-bottom: 10px;
+}
+footer .col-lg-9 ul li a{
+    font-family: Inter;
+font-weight: 400;
+font-size: 16px;
+leading-trim: NONE;
+line-height: 24px;
+letter-spacing: -0.2px;
+color: #8B96A5;
+}
+footer .col-lg-9 ul li img{
+    margin-bottom: 10px;
+}

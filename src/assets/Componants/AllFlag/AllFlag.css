@@ -1,0 +1,80 @@
+/* Important */
+/* Important */
+/* Important */
+/* Important */
+/* Important */
+/* Important */
+/* Important */
+/* Important */
+
+.flagsSwiper .swiper-wrapper {
+  transition-timing-function: linear !important;
+}
+/* Important */
+/* Important */
+/* Important */
+/* Important */
+/* Important */
+/* Important */
+/* Important */
+/* Important */
+
+.region{
+    padding-top: 20px;
+    padding-bottom: 40px;
+}
+.region h2{
+    font-family: Inter;
+font-weight: 600;
+font-style: Semi Bold;
+font-size: 24px;
+leading-trim: NONE;
+line-height: 32px;
+letter-spacing: -0.2px;
+color: #1C1C1C;
+margin-bottom: 30px;
+}
+
+.region .flagItem p{
+        margin-bottom: 0px;
+    font-family: Inter;
+font-weight: 400;
+font-size: 16px;
+leading-trim: NONE;
+line-height: 24px;
+letter-spacing: -0.2px;
+color: #1C1C1C;
+}
+.region .flagItem span{
+font-family: Inter;
+font-weight: 400;
+font-style: Regular;
+font-size: 13px;
+leading-trim: NONE;
+line-height: 100%;
+letter-spacing: 0px;
+color: #8B96A5;
+}
+.region .flagItem{
+  display: flex;
+  align-items: center;
+  gap: 24px;           
+}
+
+.region .flagItem img{
+  width: 34px;        
+  height: 24px;        
+  object-fit: cover;   
+  flex: 0 0 auto;
+}
+
+.region .flagItem .info{
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+.region .flagCol{
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}

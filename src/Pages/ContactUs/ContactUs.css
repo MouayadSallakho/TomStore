@@ -1,0 +1,257 @@
+:root {
+  --mainColorblue: #0D6EFD;
+  --mainColorBlack: #1C1C1C;
+  --mainGray: #8B96A5;
+
+  --bg: #f7fafc;
+  --card: #fff;
+  --border: rgba(0, 0, 0, .08);
+
+  --radius: 14px;
+  --shadowSoft: 0 10px 26px rgba(0, 0, 0, .07);
+  --shadowHover: 0 18px 42px rgba(0, 0, 0, .12);
+}
+
+
+
+
+.contactTitle {
+  text-align: center;
+  margin: 6px 0 18px;
+  font-family: Inter;
+  font-weight: 900;
+  font-size: 36px;
+  letter-spacing: -0.4px;
+  color: var(--mainColorBlack);
+}
+
+/* ===== 4 cards ===== */
+.contactCardsRow {
+  row-gap: 18px;
+}
+
+.cardContact {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  height: 100%;
+  text-align: center;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, .05);
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+}
+
+.cardContact:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadowSoft);
+  border-color: rgba(13, 110, 253, .25);
+}
+
+.cardContact i {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 12px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg,
+      rgba(13, 110, 253, .18),
+      rgba(13, 110, 253, .08));
+  border: 1px solid rgba(13, 110, 253, .18);
+}
+
+.cardContact i svg {
+  font-size: 26px;
+  color: var(--mainColorblue);
+}
+
+.cardContact p {
+  margin: 0 0 8px;
+  font-family: Inter;
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: .6px;
+  color: var(--mainColorBlack);
+}
+
+.cardContact span {
+  font-family: Inter;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  color: #505050;
+  display: block;
+}
+
+/* ===== big section wrapper ===== */
+.underOurCards {
+  margin-top: 18px;
+  margin-bottom: 26px;
+  padding: 26px 0;
+
+  /* premium background */
+  background:
+    radial-gradient(1200px 500px at 15% 30%, rgba(13, 110, 253, .18), transparent 60%),
+    radial-gradient(900px 380px at 90% 70%, rgba(13, 110, 253, .10), transparent 55%),
+    linear-gradient(180deg, #ffffff 0%, #f6f9ff 100%);
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadowSoft);
+}
+
+.contactMainRow {
+  align-items: stretch;
+}
+
+/* ===== form ===== */
+.contactForm {
+  height: 100%;
+  background: rgba(255, 255, 255, .75);
+  border: 1px solid rgba(0, 0, 0, .06);
+  border-radius: var(--radius);
+  padding: 22px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, .06);
+}
+
+.contactForm .field {
+  margin-bottom: 16px;
+}
+
+.contactForm label {
+  display: block;
+  margin-bottom: 7px;
+  font-family: Inter;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--mainColorBlack);
+}
+
+.contactForm input,
+.contactForm textarea {
+  width: 100%;
+  border-radius: 12px;
+  padding: 11px 12px;
+  border: 1px solid rgba(0, 0, 0, .12);
+  background: #fff;
+  font-family: Inter;
+  font-size: 15px;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.contactForm input:focus,
+.contactForm textarea:focus {
+  outline: none;
+  border-color: rgba(13, 110, 253, .45);
+  box-shadow: 0 0 0 4px rgba(13, 110, 253, .12);
+}
+
+.contactForm textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+.btnSubmit {
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  padding: 12px;
+  background: linear-gradient(135deg, #0D6EFD, #2B7BFF);
+  color: #fff;
+  font-family: Inter;
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: .3px;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.btnSubmit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 26px rgba(13, 110, 253, .22);
+}
+
+/* ===== right text ===== */
+.underOurCards .right {
+  height: 100%;
+  padding: 10px 10px;
+}
+
+.touchTitle {
+  font-family: Inter;
+  font-weight: 900;
+  font-size: 34px;
+  letter-spacing: -0.4px;
+  color: var(--mainColorBlack);
+  margin-bottom: 10px;
+}
+
+.touchText {
+  font-family: Inter;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 26px;
+  color: #505050;
+  margin-bottom: 10px;
+}
+
+.touchSpan {
+  display: block;
+  font-family: Inter;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 26px;
+  color: var(--mainGray);
+  margin-bottom: 14px;
+}
+
+/* ===== social ===== */
+.socialList {
+  display: flex;
+  gap: 10px;
+  padding: 0;
+  margin: 0;
+}
+
+.socialList li {
+  list-style: none;
+}
+
+.socialList a {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(255, 255, 255, .8);
+  border: 1px solid rgba(0, 0, 0, .10);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, .06);
+  color: var(--mainColorBlack);
+  transition: transform .2s ease, border-color .2s ease, background .2s ease;
+}
+
+.socialList a:hover {
+  transform: translateY(-2px);
+  border-color: rgba(13, 110, 253, .35);
+  background: rgba(13, 110, 253, .08);
+  color: var(--mainColorblue);
+}
+
+/* ===== responsive ===== */
+@media(max-width:768px) {
+  .contactTitle {
+    font-size: 28px;
+  }
+
+  .underOurCards {
+    padding: 18px 0;
+    border-radius: 12px;
+  }
+
+  .touchTitle {
+    font-size: 28px;
+  }
+}
