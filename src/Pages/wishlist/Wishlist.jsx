@@ -16,10 +16,13 @@ import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper/modules";
 // ✅ CONTEXT
 import { useShop } from "../../context/ShopContext"; // adjust path if needed
 import { normalizeShopItem } from "../../utils/shopItem";
+import { useToast } from "../../context/ToastContext";
 
 const Wishlist = () => {
   // ✅ context state/actions
   const { wishlist, clearWishlist, removeFromWishlist, addToCart } = useShop();
+
+  const { showToast } = useToast();
 
   // ✅ screen size: Swiper under 768px
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
@@ -32,8 +35,28 @@ const Wishlist = () => {
 
   const count = useMemo(() => wishlist.length, [wishlist]);
 
-  const removeItem = (id) => removeFromWishlist(id);
-  const clearAll = () => clearWishlist();
+  const removeItem = (item) => {
+    removeFromWishlist(item.id);
+    showToast({
+      type: "danger",
+      title: "Removed from wishlist",
+      message: item.title,
+      actionLabel: "View wishlist",
+      actionRoute: "/wishlist",
+    });
+  };
+  const clearAll = () => {
+    if (wishlist.length === 0) return;
+    clearWishlist();
+    showToast({
+      type: "danger",
+      title: "Cleared wishlist",
+      message: "All items were removed",
+      actionLabel: "View wishlist",
+      actionRoute: "/wishlist",
+      dedupeKey: "clear-wishlist",
+    });
+  };
 
   const moveToCart = (item) => {
     // ✅ normalize to match shared item structure
@@ -42,6 +65,14 @@ const Wishlist = () => {
     // ✅ remove from wishlist then add to cart
     removeFromWishlist(item.id);
     addToCart(normalized, normalized.qty);
+
+    showToast({
+      type: "success",
+      title: "Moved to cart",
+      message: item.title,
+      actionLabel: "View cart",
+      actionRoute: "/Cart",
+    });
   };
 
   const Card = ({ item }) => (
@@ -73,7 +104,7 @@ const Wishlist = () => {
           <button
             type="button"
             className="btnRemoveWish"
-            onClick={() => removeItem(item.id)}
+            onClick={() => removeItem(item)}
           >
             Remove
           </button>

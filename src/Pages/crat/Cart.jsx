@@ -22,6 +22,7 @@ import payment5 from "../../assets/Images/payment5.png";
 // ✅ CONTEXT
 import { useShop } from "../../context/ShopContext"; // adjust path if needed
 import { normalizeShopItem } from "../../utils/shopItem";
+import { useToast } from "../../context/ToastContext";
 
 const Cart = () => {
   // ✅ context state/actions
@@ -40,6 +41,8 @@ const Cart = () => {
     clearSaved,
     moveSavedToCart,
   } = useShop();
+
+  const { showToast } = useToast();
 
   const [coupon, setCoupon] = useState("");
   const [couponApplied, setCouponApplied] = useState(false);
@@ -74,22 +77,54 @@ const Cart = () => {
     updateCartQty(id, nextQty);
   };
 
-  const removeItem = (id) => {
-    removeFromCart(id);
+  const removeItem = (item) => {
+    removeFromCart(item.id);
+    showToast({
+      type: "danger",
+      title: "Removed from cart",
+      message: item.title,
+      actionLabel: "View cart",
+      actionRoute: "/Cart",
+    });
   };
 
-  const removeAll = () => clearCart();
+  const removeAll = () => {
+    if (cart.length === 0) return;
+    clearCart();
+    showToast({
+      type: "danger",
+      title: "Cleared cart",
+      message: "All items were removed",
+      actionLabel: "View cart",
+      actionRoute: "/Cart",
+      dedupeKey: "clear-cart",
+    });
+  };
 
   // ✅ Cart -> Saved: normalize before sending to context
   const saveItemForLater = (item) => {
     const normalized = normalizeShopItem(item, item.qty || 1);
     saveForLater(normalized);
+    showToast({
+      type: "info",
+      title: "Saved for later",
+      message: item.title,
+      actionLabel: "View saved items",
+      actionRoute: "/Cart",
+    });
   };
 
   // ✅ Saved -> Cart: normalize before sending to context
   const moveToCart = (item) => {
     const normalized = normalizeShopItem(item, item.qty || 1);
     moveSavedToCart(normalized);
+    showToast({
+      type: "success",
+      title: "Moved to cart",
+      message: item.title,
+      actionLabel: "View cart",
+      actionRoute: "/Cart",
+    });
   };
 
   const applyCoupon = () => {
@@ -166,7 +201,7 @@ const Cart = () => {
                               <button
                                 type="button"
                                 className="btnGhostDanger"
-                                onClick={() => removeItem(item.id)}
+                                onClick={() => removeItem(item)}
                               >
                                 Remove
                               </button>

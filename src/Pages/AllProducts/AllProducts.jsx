@@ -24,6 +24,7 @@ import Footer from "../../assets/Componants/Footer/Footer";
 
 import { useShop } from "../../context/ShopContext"; // ✅ adjust path if needed
 import { normalizeShopItem } from "../../utils/shopItem";
+import { useToast } from "../../context/ToastContext";
 
 const clampQty = (n) => Math.max(1, Math.min(99, Number(n) || 1));
 
@@ -33,6 +34,7 @@ const Allproducts = () => {
 
   // ✅ CONTEXT (NO localStorage here)
   const { addToCart, toggleWishlist, isInWishlist } = useShop();
+  const { showToast } = useToast();
 
   // ✅ responsive: show Offcanvas filters under 992px
   const [isMobileFilters, setIsMobileFilters] = useState(
@@ -83,14 +85,6 @@ const Allproducts = () => {
   // search from URL (desktop + mobile header)
   const [searchText, setSearchText] = useState("");
 
-  // toast
-  const [toast, setToast] = useState({
-    open: false,
-    text: "",
-    productTitle: "",
-    action: "cart", // "cart" | "wishlist"
-  });
-
   const totalPages = Math.max(1, Math.ceil((total || 0) / displayCount));
   const from = total === 0 ? 0 : (page - 1) * displayCount + 1;
   const to = Math.min(page * displayCount, total);
@@ -104,14 +98,6 @@ const Allproducts = () => {
     const q = params.get("q") || "";
     setSearchText(q);
   }, [location.search]);
-
-  const openToast = (text, productTitle = "", action = "cart") => {
-    setToast({ open: true, text, productTitle, action });
-    window.clearTimeout(openToast._t);
-    openToast._t = window.setTimeout(() => {
-      setToast({ open: false, text: "", productTitle: "", action: "cart" });
-    }, 2500);
-  };
 
   // qty helper
   const setQty = (id, updater) => {
@@ -286,10 +272,6 @@ const Allproducts = () => {
     setPage((p) => Math.min(totalPages, p + 1));
     scrollToTopOfList();
   };
-
-  const toastRoute = toast.action === "wishlist" ? "/wishlist" : "/Cart";
-  const toastBtnLabel =
-    toast.action === "wishlist" ? "Go to wishlist" : "Go to cart";
 
   // ✅ helper: number of filters for badge
   const filtersCount =
@@ -647,13 +629,15 @@ const Allproducts = () => {
                                     onClick={() => {
                                       const already = isInWishlist(product.id);
                                       toggleWishlist(product);
-                                      openToast(
-                                        already
+                                      showToast({
+                                        type: already ? "danger" : "success",
+                                        title: already
                                           ? "Removed from wishlist"
                                           : "Added to wishlist",
-                                        product.title,
-                                        "wishlist",
-                                      );
+                                        message: product.title,
+                                        actionLabel: "View wishlist",
+                                        actionRoute: "/wishlist",
+                                      });
                                     }}
                                     aria-label="Wishlist"
                                   >
@@ -697,11 +681,13 @@ const Allproducts = () => {
                                           normalized.qty,
                                         ); // ✅ normalized input to context
                                         setQty(product.id, 1);
-                                        openToast(
-                                          "Added to cart",
-                                          product.title,
-                                          "cart",
-                                        );
+                                        showToast({
+                                          type: "success",
+                                          title: "Added to cart",
+                                          message: product.title,
+                                          actionLabel: "View cart",
+                                          actionRoute: "/Cart",
+                                        });
                                       }}
                                     >
                                       <FaCartPlus className="icon" />
@@ -797,46 +783,6 @@ const Allproducts = () => {
           <FiltersUI insideOffcanvas />
         </Offcanvas.Body>
       </Offcanvas>
-
-      {/* Toast */}
-      {toast.open && (
-        <div className="cartToast" role="status" aria-live="polite">
-          <div className="cartToastInner">
-            <div className="cartToastText">
-              <b>{toast.text}</b>
-              {toast.productTitle ? (
-                <span className="small"> {toast.productTitle}</span>
-              ) : null}
-            </div>
-
-            <div className="cartToastActions">
-              <button
-                type="button"
-                className="toastBtn"
-                onClick={() => navigate(toastRoute)}
-              >
-                {toastBtnLabel}
-              </button>
-
-              <button
-                type="button"
-                className="toastX"
-                onClick={() =>
-                  setToast({
-                    open: false,
-                    text: "",
-                    productTitle: "",
-                    action: "cart",
-                  })
-                }
-                aria-label="Close"
-              >
-                ×
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       <Footer />
     </div>

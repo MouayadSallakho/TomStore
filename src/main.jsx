@@ -5,12 +5,15 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
 import App from "./App.jsx";
 import { ShopProvider } from "./context/ShopContext";
+import { ToastProvider } from "./context/ToastContext";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
       <ShopProvider>
-        <App />
+        <ToastProvider>
+          <App />
+        </ToastProvider>
       </ShopProvider>
     </BrowserRouter>
   </StrictMode>

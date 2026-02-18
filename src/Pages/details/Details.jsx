@@ -29,6 +29,7 @@ import Header from "../../assets/Componants/Header/Header";
 
 // ✅ CONTEXT
 import { useShop } from "../../context/ShopContext";
+import { useToast } from "../../context/ToastContext";
 import { normalizeShopItem } from "../../utils/shopItem";
 
 // fallback images
@@ -172,6 +173,7 @@ const Details = () => {
 
   // ✅ CONTEXT
   const { addToCart, toggleWishlist, isInWishlist } = useShop();
+  const { showToast } = useToast();
 
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -184,25 +186,6 @@ const Details = () => {
   // ✅ UX states
   const [qty, setQty] = useState(1);
   const [addedPulse, setAddedPulse] = useState(false);
-
-  // ✅ Toast (same style behavior as your AllProducts)
-  const [toast, setToast] = useState({
-    open: false,
-    text: "",
-    productTitle: "",
-    action: "cart", // "cart" | "wishlist"
-  });
-
-  const openToast = (text, productTitle = "", action = "cart") => {
-    setToast({ open: true, text, productTitle, action });
-    window.clearTimeout(openToast._t);
-    openToast._t = window.setTimeout(() => {
-      setToast({ open: false, text: "", productTitle: "", action: "cart" });
-    }, 2500);
-  };
-
-  const toastRoute = toast.action === "wishlist" ? "/wishlist" : "/Cart";
-  const toastBtnLabel = toast.action === "wishlist" ? "Go to wishlist" : "Go to cart";
 
   const fallbackImgs = [fb1, fb2, fb3, fb4, fb5];
 
@@ -274,7 +257,13 @@ const Details = () => {
     setTimeout(() => setAddedPulse(false), 850);
 
     setQty(1);
-    openToast("Added to cart", product.title, "cart");
+    showToast({
+      type: "success",
+      title: "Added to cart",
+      message: product.title,
+      actionLabel: "View cart",
+      actionRoute: "/Cart",
+    });
   };
 
   const handleToggleWishlist = () => {
@@ -283,11 +272,13 @@ const Details = () => {
     const willBeInWishlist = !isInWishlist(product.id);
     toggleWishlist(product); // ✅ context
 
-    openToast(
-      willBeInWishlist ? "Added to wishlist" : "Removed from wishlist",
-      product.title,
-      "wishlist"
-    );
+    showToast({
+      type: willBeInWishlist ? "success" : "danger",
+      title: willBeInWishlist ? "Added to wishlist" : "Removed from wishlist",
+      message: product.title,
+      actionLabel: "View wishlist",
+      actionRoute: "/wishlist",
+    });
   };
 
   // Error UI
@@ -661,33 +652,6 @@ const Details = () => {
           </div>
         </div>
       </Container>
-
-      {/* Toast */}
-      {toast.open && (
-        <div className="cartToast" role="status" aria-live="polite">
-          <div className="cartToastInner">
-            <div className="cartToastText">
-              <b>{toast.text}</b>
-              {toast.productTitle ? <span className="small"> {toast.productTitle}</span> : null}
-            </div>
-
-            <div className="cartToastActions">
-              <button type="button" className="toastBtn" onClick={() => navigate(toastRoute)}>
-                {toastBtnLabel}
-              </button>
-
-              <button
-                type="button"
-                className="toastX"
-                onClick={() => setToast({ open: false, text: "", productTitle: "", action: "cart" })}
-                aria-label="Close"
-              >
-                ×
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       <Footer />
     </div>
