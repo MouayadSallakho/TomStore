@@ -197,6 +197,11 @@
   color: #505050;
 }
 
+.Product-list .Grid p b {
+  font-weight: 800;
+  color: var(--mainColorBlack);
+}
+
 .Product-list .Grid span {
   font-family: Inter;
   font-weight: 800;

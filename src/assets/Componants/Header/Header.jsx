@@ -74,8 +74,11 @@ export default function Header() {
     );
   };
 
-  // ✅ Debounced live suggestions
+  // ✅ Debounced live suggestions (desktop)
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
+
     const q = searchText.trim();
 
     if (q.length < 2) {
@@ -89,18 +92,31 @@ export default function Header() {
     const t = setTimeout(() => {
       fetch(
         `https://dummyjson.com/products/search?q=${encodeURIComponent(
-          q
-        )}&limit=6`
+          q,
+        )}&limit=6`,
+        { signal },
       )
-        .then((res) => res.json())
+        .then((res) => {
+          if (!res.ok) throw new Error("Failed to search products");
+          return res.json();
+        })
         .then((data) => {
+          if (signal.aborted) return;
           setSuggestions(Array.isArray(data?.products) ? data.products : []);
         })
-        .catch(() => setSuggestions([]))
-        .finally(() => setSearchLoading(false));
+        .catch((err) => {
+          if (err.name === "AbortError") return;
+          setSuggestions([]);
+        })
+        .finally(() => {
+          if (!signal.aborted) setSearchLoading(false);
+        });
     }, 350);
 
-    return () => clearTimeout(t);
+    return () => {
+      clearTimeout(t);
+      controller.abort();
+    };
   }, [searchText]);
 
   // ✅ Close suggestions on outside click

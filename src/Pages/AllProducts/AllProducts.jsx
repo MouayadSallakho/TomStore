@@ -16,7 +16,7 @@ import { BsGrid3X3GapFill } from "react-icons/bs";
 import { CiGrid2H } from "react-icons/ci";
 import { FiEye } from "react-icons/fi";
 import { FaFilter } from "react-icons/fa";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 
 import "./AllProducts.css";
 import Header from "../../assets/Componants/Header/Header";
@@ -29,6 +29,7 @@ const clampQty = (n) => Math.max(1, Math.min(99, Number(n) || 1));
 
 const Allproducts = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   // ✅ CONTEXT (NO localStorage here)
   const { addToCart, toggleWishlist, isInWishlist } = useShop();
@@ -79,6 +80,9 @@ const Allproducts = () => {
   const [appliedPrice, setAppliedPrice] = useState({ min: null, max: null });
   const [minRating, setMinRating] = useState(0);
 
+  // search from URL (desktop + mobile header)
+  const [searchText, setSearchText] = useState("");
+
   // toast
   const [toast, setToast] = useState({
     open: false,
@@ -93,6 +97,13 @@ const Allproducts = () => {
 
   const scrollToTopOfList = () =>
     window.scrollTo({ top: 0, behavior: "smooth" });
+
+  // read "q" from URL on mount / when query changes
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const q = params.get("q") || "";
+    setSearchText(q);
+  }, [location.search]);
 
   const openToast = (text, productTitle = "", action = "cart") => {
     setToast({ open: true, text, productTitle, action });
@@ -141,17 +152,30 @@ const Allproducts = () => {
 
   // fetch categories
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
+
     setCatLoading(true);
     setCatError(null);
 
-    fetch("https://dummyjson.com/products/categories")
+    fetch("https://dummyjson.com/products/categories", { signal })
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch categories");
         return res.json();
       })
-      .then((data) => setCategories(Array.isArray(data) ? data : []))
-      .catch((err) => setCatError(err.message))
-      .finally(() => setCatLoading(false));
+      .then((data) => {
+        if (signal.aborted) return;
+        setCategories(Array.isArray(data) ? data : []);
+      })
+      .catch((err) => {
+        if (err.name === "AbortError") return;
+        setCatError(err.message || "Failed to load categories");
+      })
+      .finally(() => {
+        if (!signal.aborted) setCatLoading(false);
+      });
+
+    return () => controller.abort();
   }, []);
 
   // reset page when page size changes
@@ -166,6 +190,9 @@ const Allproducts = () => {
 
   // fetch products
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
+
     setProdLoading(true);
     setProdError(null);
 
@@ -175,26 +202,41 @@ const Allproducts = () => {
       ? `https://dummyjson.com/products/category/${selectedCategory}?limit=${displayCount}&skip=${skip}`
       : `https://dummyjson.com/products?limit=${displayCount}&skip=${skip}`;
 
-    fetch(url)
+    fetch(url, { signal })
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch products");
         return res.json();
       })
       .then((data) => {
+        if (signal.aborted) return;
         setProducts(data.products || []);
         setTotal(data.total ?? 0);
       })
       .catch((err) => {
-        setProdError(err.message);
+        if (err.name === "AbortError") return;
+        setProdError(err.message || "Failed to load products");
         setProducts([]);
         setTotal(0);
       })
-      .finally(() => setProdLoading(false));
+      .finally(() => {
+        if (!signal.aborted) setProdLoading(false);
+      });
+
+    return () => controller.abort();
   }, [displayCount, selectedCategory, page]);
 
   // local filter results
   const filteredProducts = useMemo(() => {
+    const q = (searchText || "").trim().toLowerCase();
+
     return products.filter((p) => {
+      // search filter (from header desktop/mobile)
+      if (q) {
+        const title = String(p.title || "").toLowerCase();
+        const category = String(p.category || "").toLowerCase();
+        if (!title.includes(q) && !category.includes(q)) return false;
+      }
+
       if (minRating > 0 && Number(p.rating) < minRating) return false;
 
       const price = Number(p.price);
@@ -496,10 +538,17 @@ const Allproducts = () => {
 
                   <div className="Grid">
                     <p>
-                      Showing <span>{filteredProducts.length}</span> items in{" "}
-                      <span>
-                        {selectedCategory ? selectedCategory : "All products"}
-                      </span>
+                      Showing <span>{filteredProducts.length}</span>{" "}
+                      {searchText
+                        ? `items for "${searchText}"`
+                        : "items in"}{" "}
+                      {!searchText && (
+                        <span>
+                          {selectedCategory
+                            ? selectedCategory
+                            : "All products"}
+                        </span>
+                      )}
                     </p>
 
                     <div className="type-grid">
