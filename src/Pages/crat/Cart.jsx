@@ -21,6 +21,7 @@ import payment5 from "../../assets/Images/payment5.png";
 
 // ✅ CONTEXT
 import { useShop } from "../../context/ShopContext"; // adjust path if needed
+import { normalizeShopItem } from "../../utils/shopItem";
 
 const Cart = () => {
   // ✅ context state/actions
@@ -79,14 +80,16 @@ const Cart = () => {
 
   const removeAll = () => clearCart();
 
-  // ✅ Cart -> Saved (context already handles removing from cart + adding saved)
+  // ✅ Cart -> Saved: normalize before sending to context
   const saveItemForLater = (item) => {
-    saveForLater(item);
+    const normalized = normalizeShopItem(item, item.qty || 1);
+    saveForLater(normalized);
   };
 
-  // ✅ Saved -> Cart
+  // ✅ Saved -> Cart: normalize before sending to context
   const moveToCart = (item) => {
-    moveSavedToCart(item);
+    const normalized = normalizeShopItem(item, item.qty || 1);
+    moveSavedToCart(normalized);
   };
 
   const applyCoupon = () => {

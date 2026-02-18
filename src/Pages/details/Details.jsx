@@ -29,6 +29,7 @@ import Header from "../../assets/Componants/Header/Header";
 
 // ✅ CONTEXT
 import { useShop } from "../../context/ShopContext";
+import { normalizeShopItem } from "../../utils/shopItem";
 
 // fallback images
 import fb1 from "../../assets/Images/imageshort1.png";
@@ -267,7 +268,8 @@ const Details = () => {
   const handleAddToCart = () => {
     if (!product || !inStock) return;
 
-    addToCart(product, qty); // ✅ context
+    const normalized = normalizeShopItem(product, qty);
+    addToCart(normalized, normalized.qty); // ✅ normalized input to context
     setAddedPulse(true);
     setTimeout(() => setAddedPulse(false), 850);
 

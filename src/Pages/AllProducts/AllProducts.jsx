@@ -23,6 +23,7 @@ import Header from "../../assets/Componants/Header/Header";
 import Footer from "../../assets/Componants/Footer/Footer";
 
 import { useShop } from "../../context/ShopContext"; // ✅ adjust path if needed
+import { normalizeShopItem } from "../../utils/shopItem";
 
 const clampQty = (n) => Math.max(1, Math.min(99, Number(n) || 1));
 
@@ -638,7 +639,14 @@ const Allproducts = () => {
                                       onClick={() => {
                                         const currentQty =
                                           qtyById[product.id] ?? 1;
-                                        addToCart(product, currentQty); // ✅ context
+                                        const normalized = normalizeShopItem(
+                                          product,
+                                          currentQty,
+                                        );
+                                        addToCart(
+                                          normalized,
+                                          normalized.qty,
+                                        ); // ✅ normalized input to context
                                         setQty(product.id, 1);
                                         openToast(
                                           "Added to cart",

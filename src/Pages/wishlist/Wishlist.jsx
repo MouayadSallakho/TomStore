@@ -15,6 +15,7 @@ import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper/modules";
 
 // ✅ CONTEXT
 import { useShop } from "../../context/ShopContext"; // adjust path if needed
+import { normalizeShopItem } from "../../utils/shopItem";
 
 const Wishlist = () => {
   // ✅ context state/actions
@@ -35,17 +36,12 @@ const Wishlist = () => {
   const clearAll = () => clearWishlist();
 
   const moveToCart = (item) => {
-    // ✅ normalize to match cart structure
-    const normalized = {
-      id: item.id,
-      title: item.title,
-      price: Number(item.price) || 0,
-      thumbnail: item.thumbnail,
-    };
+    // ✅ normalize to match shared item structure
+    const normalized = normalizeShopItem(item, item.qty || 1);
 
     // ✅ remove from wishlist then add to cart
     removeFromWishlist(item.id);
-    addToCart(normalized, item.qty || 1);
+    addToCart(normalized, normalized.qty);
   };
 
   const Card = ({ item }) => (

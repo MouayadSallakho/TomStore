@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { clampQty, normalizeShopItem } from "../utils/shopItem";
 
 const ShopContext = createContext(null);
 
@@ -19,7 +20,6 @@ const writeLS = (key, value) => {
   localStorage.setItem(key, JSON.stringify(value));
 };
 
-const clampQty = (n) => Math.max(1, Math.min(99, Number(n) || 1));
 const sameId = (a, b) => String(a) === String(b);
 
 export function ShopProvider({ children }) {
@@ -52,13 +52,7 @@ export function ShopProvider({ children }) {
   // CART ACTIONS
   // =========================
   const addToCart = (product, qty = 1) => {
-    const normalized = {
-      id: product.id,
-      title: product.title,
-      price: Number(product.price) || 0,
-      thumbnail: product.thumbnail,
-      qty: clampQty(qty),
-    };
+    const normalized = normalizeShopItem(product, qty);
 
     setCart((prev) => {
       const copy = [...prev];
@@ -126,23 +120,26 @@ export function ShopProvider({ children }) {
   const saveForLater = (item) => {
     const qtyToMove = clampQty(item.qty || 1);
 
-    // ✅ Add/merge into saved FIRST
+    // ✅ Normalize once at the boundary
+    const normalized = normalizeShopItem(item, qtyToMove);
+
+    // ✅ Add/merge into saved FIRST (never lose an item)
     setSavedForLater((prev) => {
-      const idx = prev.findIndex((x) => sameId(x.id, item.id));
+      const idx = prev.findIndex((x) => sameId(x.id, normalized.id));
       if (idx >= 0) {
         const copy = [...prev];
         copy[idx] = {
           ...copy[idx],
-          qty: clampQty((Number(copy[idx].qty) || 1) + qtyToMove),
+          qty: clampQty((Number(copy[idx].qty) || 1) + normalized.qty),
           savedAt: Date.now(),
         };
         return copy;
       }
-      return [{ ...item, qty: qtyToMove, savedAt: Date.now() }, ...prev];
+      return [{ ...normalized, savedAt: Date.now() }, ...prev];
     });
 
     // ✅ Then remove from cart
-    setCart((prev) => prev.filter((x) => !sameId(x.id, item.id)));
+    setCart((prev) => prev.filter((x) => !sameId(x.id, normalized.id)));
   };
 
   const removeSaved = (id) => {
@@ -154,31 +151,28 @@ export function ShopProvider({ children }) {
   const moveSavedToCart = (item) => {
     const qtyToAdd = clampQty(item.qty || 1);
 
-    // ✅ Add/merge into cart FIRST
+    // ✅ Normalize once at the boundary
+    const normalized = normalizeShopItem(item, qtyToAdd);
+
+    // ✅ Add/merge into cart FIRST (merge qty, never duplicate)
     setCart((prev) => {
       const copy = [...prev];
-      const idx = copy.findIndex((x) => sameId(x.id, item.id));
+      const idx = copy.findIndex((x) => sameId(x.id, normalized.id));
 
       if (idx >= 0) {
         copy[idx] = {
           ...copy[idx],
-          qty: clampQty((Number(copy[idx].qty) || 1) + qtyToAdd),
+          qty: clampQty((Number(copy[idx].qty) || 1) + normalized.qty),
         };
       } else {
-        copy.push({
-          id: item.id,
-          title: item.title,
-          price: Number(item.price) || 0,
-          thumbnail: item.thumbnail,
-          qty: qtyToAdd,
-        });
+        copy.push(normalized);
       }
 
       return copy;
     });
 
     // ✅ Then remove from saved
-    setSavedForLater((prev) => prev.filter((x) => !sameId(x.id, item.id)));
+    setSavedForLater((prev) => prev.filter((x) => !sameId(x.id, normalized.id)));
   };
 
   const value = {
