@@ -44,6 +44,12 @@ a {
     border-bottom-left-radius: 7px;
 }
 
+@media(max-width:992px) {
+    .ShowProducts .col-lg-3 {
+        background-position: center;
+    }
+}
+
 .ShowProducts .row {
     background-color: #FFFFFF;
     border-radius: 6px !important;
@@ -115,11 +121,47 @@ a {
     padding: 16px;
     border-left: 1px solid #ccc;
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     /* flex-direction: column; */
     /* text-align: center; */
     position: relative;
 }
+
+
+@media(max-width:992px) {
+    .prodInner {
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: space-between;
+        text-align: center;
+    }
+
+    .prodInner img {
+        margin-bottom: 15px;
+        /* width: 100%; */
+        height: 130px !important;
+        width: fit-content !important;
+        margin-left: auto;
+        margin-right: auto;
+
+    }
+
+    .prodTitle {
+        display: block;
+        margin-bottom: 14px;
+    }
+
+    .prodInner {
+        width: 100% !important;
+    }
+
+}
+
+
+
+
+
+
 
 .ShowProducts .col-lg-9 .swiper-slide .prodInner .prodTitle {
     font-family: Inter;
@@ -151,7 +193,13 @@ a {
 
 @media(max-width:768px) {
     .ShowProducts .row {
-        gap: 10px;
+        /* gap: 10px; */
+    }
+
+    .ShowProducts .col-lg-3 {
+        border-radius: 0px;
+        border-top-left-radius: 7px;
+        border-top-right-radius: 7px;
     }
 
     .ShowProducts .col-lg-9 {
@@ -160,6 +208,7 @@ a {
         border-bottom-right-radius: 7px;
         border-top-right-radius: 7px;
         border-radius: 7px;
+        border-radius: 0px;
     }
 }
 
@@ -169,71 +218,76 @@ a {
  */
 
 
- /* =========================
+/* =========================
    SKELETON - ShowProducts
 ========================= */
 
 .ShowProducts .prodSkeleton {
-  pointer-events: none;
+    pointer-events: none;
 }
 
 .ShowProducts .sk-prod-title,
 .ShowProducts .sk-prod-price,
 .ShowProducts .sk-prod-img {
-  background: #e9ecef;
-  border-radius: 10px;
-  position: relative;
-  overflow: hidden;
+    background: #e9ecef;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
 }
 
 /* title skeleton */
 .ShowProducts .sk-prod-title {
-  width: 140px;
-  height: 14px;
-  margin-bottom: 10px;
+    width: 140px;
+    height: 14px;
+    margin-bottom: 10px;
 }
 
 /* price skeleton */
 .ShowProducts .sk-prod-price {
-  width: 110px;
-  height: 12px;
+    width: 110px;
+    height: 12px;
 }
 
 /* image skeleton (same place as prodImg) */
 .ShowProducts .sk-prod-img {
-  width: 80px;        /* adjust if your prodImg is larger */
-  height: 80px;
-  border-radius: 12px;
+    width: 80px;
+    /* adjust if your prodImg is larger */
+    height: 80px;
+    border-radius: 12px;
 }
 
 /* shimmer animation */
 .ShowProducts .sk-prod-title::after,
 .ShowProducts .sk-prod-price::after,
 .ShowProducts .sk-prod-img::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  transform: translateX(-100%);
-  background: linear-gradient(
-    90deg,
-    rgba(255,255,255,0) 0%,
-    rgba(255,255,255,0.6) 50%,
-    rgba(255,255,255,0) 100%
-  );
-  animation: showProdShimmer 1.2s infinite;
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(90deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.6) 50%,
+            rgba(255, 255, 255, 0) 100%);
+    animation: showProdShimmer 1.2s infinite;
 }
 
 @keyframes showProdShimmer {
-  100% {
-    transform: translateX(100%);
-  }
+    100% {
+        transform: translateX(100%);
+    }
 }
 
 /* reduce motion */
 @media (prefers-reduced-motion: reduce) {
-  .ShowProducts .sk-prod-title::after,
-  .ShowProducts .sk-prod-price::after,
-  .ShowProducts .sk-prod-img::after {
-    animation: none !important;
-  }
+
+    .ShowProducts .sk-prod-title::after,
+    .ShowProducts .sk-prod-price::after,
+    .ShowProducts .sk-prod-img::after {
+        animation: none !important;
+    }
+}
+.prodLink{
+  display: block;
+  width: 100%;
+  color: inherit;
 }

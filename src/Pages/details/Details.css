@@ -706,3 +706,136 @@ letter-spacing: -0.2px;
     animation: none !important;
   }
 }
+
+
+/* ===========================
+   RIGHT CARD: BUY BOX (NEW)
+=========================== */
+
+.buyBox{
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.qtyRow{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.qtyLabel{
+  font-family: Inter;
+  font-weight: 500;
+  font-size: 14px;
+  color: #606060;
+}
+
+.qtyControl{
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #e6e6e6;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fafafa;
+}
+
+.qtyControl button{
+  width: 40px;
+  height: 38px;
+  border: 0;
+  background: transparent;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.qtyControl span{
+  width: 46px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Inter;
+  font-weight: 600;
+  color: #1c1c1c;
+  background: #fff;
+  border-left: 1px solid #eee;
+  border-right: 1px solid #eee;
+}
+
+.btnAddCart{
+  width: 100%;
+  height: 44px;
+  border: 0;
+  border-radius: 12px;
+  background: #0d6efd;
+  color: #fff;
+  font-family: Inter;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  transition: transform .15s ease, opacity .15s ease;
+}
+
+.btnAddCart:active{
+  transform: scale(0.99);
+}
+
+.btnAddCart:disabled{
+  opacity: .55;
+  cursor: not-allowed;
+}
+
+.addedPulse{
+  animation: addedPulse .85s ease;
+}
+
+@keyframes addedPulse{
+  0%{ transform: scale(1); }
+  35%{ transform: scale(1.03); }
+  100%{ transform: scale(1); }
+}
+
+.btnWishlist{
+  width: 100%;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid #e6e6e6;
+  background: #fff;
+  color: #1c1c1c;
+  font-family: Inter;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: .15s ease;
+}
+
+.btnWishlist:hover{
+  background: #f7f7f7;
+}
+
+.btnWishlist.active{
+  border-color: #0d6efd;
+  color: #0d6efd;
+}
+
+/* make saveForLater actually clickable */
+.Detail_top .container .col-lg-3 .saveForLater span{
+  cursor: pointer;
+  user-select: none;
+}
+
+@media(max-width:992px){
+  .col-lg-6 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+}

@@ -112,3 +112,139 @@ color: #8B96A5;
 footer .col-lg-9 ul li img{
     margin-bottom: 10px;
 }
+
+
+
+
+/* =========================
+   Footer Hover + Icons FX
+   (Add this at the END of Footer.css)
+========================= */
+
+/* Smooth transitions for footer elements */
+footer a,
+footer .social div,
+footer .social div svg,
+footer .navbar-brand,
+footer .navbar-brand .logo,
+footer .col-lg-9 ul li a,
+footer .col-lg-9 ul li img {
+  transition: 0.25s ease;
+}
+
+/* Logo hover (small premium effect) */
+footer .navbar-brand:hover .logo {
+  color: #0d6efd; /* or var(--mainColorblue) */
+}
+
+footer .navbar-brand:hover .style-logo {
+  transform: translateY(-1px);
+}
+
+/* Links hover */
+footer .col-lg-9 ul {
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+footer .col-lg-9 ul li {
+  margin-bottom: 8px;
+}
+
+footer .col-lg-9 ul li a {
+  text-decoration: none;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+footer .col-lg-9 ul li a:hover {
+  color: #0d6efd;
+  transform: translateX(4px);
+}
+
+/* Nice underline on hover */
+footer .col-lg-9 ul li a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  height: 2px;
+  background: #0d6efd;
+  border-radius: 999px;
+  transition: 0.25s ease;
+}
+
+footer .col-lg-9 ul li a:hover::after {
+  width: 70%;
+}
+
+/* Social icons hover */
+footer .social div {
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+footer .social div:hover {
+  background: #0d6efd;
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 10px 18px rgba(13, 110, 253, 0.25);
+}
+
+footer .social div:hover svg {
+  transform: scale(1.1);
+}
+
+/* Active press effect */
+footer .social div:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+/* App store images hover */
+footer .col-lg-9 ul li img {
+  display: inline-block;
+  max-width: 160px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+footer .col-lg-9 ul li a:hover img {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 26px rgba(0,0,0,0.12);
+  border-color: rgba(13, 110, 253, 0.3);
+}
+
+/* Optional: section title hover (subtle) */
+footer .col-lg-9 p:hover {
+  color: #0d6efd;
+}
+
+/* Better focus for accessibility */
+footer a:focus-visible,
+footer .social div:focus-visible {
+  outline: 2px solid rgba(13, 110, 253, 0.6);
+  outline-offset: 3px;
+  border-radius: 10px;
+}
+
+/* Reduce motion support */
+@media (prefers-reduced-motion: reduce) {
+  footer a,
+  footer .social div,
+  footer .social div svg,
+  footer .navbar-brand,
+  footer .navbar-brand .logo,
+  footer .col-lg-9 ul li a,
+  footer .col-lg-9 ul li img {
+    transition: none !important;
+  }
+
+  footer .col-lg-9 ul li a:hover,
+  footer .social div:hover,
+  footer .col-lg-9 ul li a:hover img {
+    transform: none !important;
+  }
+}

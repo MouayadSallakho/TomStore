@@ -54,10 +54,10 @@ const allCols = [...cols, ...cols, ...cols];
   }}
   spaceBetween={12}
   breakpoints={{
-    0: { slidesPerView: 1.4 },
+    0: { slidesPerView: 1.7 },
     576: { slidesPerView: 2.4 },
     768: { slidesPerView: 3.4 },
-    992: { slidesPerView: 6 }, // ✅ lg like row-cols-lg-5
+    992: { slidesPerView: 5.4 }, // ✅ lg like row-cols-lg-5
   }}
   className="flagsSwiper"
 >

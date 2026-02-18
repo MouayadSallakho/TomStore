@@ -28,6 +28,24 @@ a {
 .HerSection {
     margin-top: 20px;
 }
+@media(max-width:992px){
+   .HerSection {
+    margin-top: 60px;
+   } 
+}
+
+@media(max-width:992px){
+   .HerSection {
+    margin-top: 60px;
+   } 
+   .swiper-slide{
+/* margin: 0px !important; */
+   }
+   .col-lg-6{
+    margin: 0px !important;
+   }
+}
+
 
 .HerSection .row {
     padding-top: 12px;
@@ -108,18 +126,24 @@ a {
 
 }
 
-.HerSection .row .col-lg-6 .swiper-slide a {
+.HerSection .row .col-lg-6 .swiper-slide .link {
     font-family: Inter;
     font-weight: 500;
     font-style: Medium;
     font-size: 16px;
-    leading-trim: NONE;
     line-height: 100%;
     letter-spacing: 0%;
-    text-align: center;
+    /* text-align: center; */
     padding: 12px;
     color: var(--mainColorBlack);
     background-color: #FFFFFF;
+    display: block;
+    color: #1C1C1C !important;
+    border-radius: 10px;
+    margin-top: 10px;
+    width: fit-content;
+    box-shadow: 0px 1px 2px 0px #38383814;
+
 }
 
 .HerSection .row .col-lg-6+.col-lg-3 .login {
@@ -216,4 +240,21 @@ a {
     line-height: 100%;
     letter-spacing: 0px;
     color: #FFFFFF;
+}
+
+@media(max-width:992px){
+    .col-3{
+        display: none !important;
+}
+
+.HerSection .row {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+.swiper-slide{
+    min-height: 260px;
+}
+.HerSection .row .col-lg-6 .swiper-slide {
+    padding: 30px 20px;
+}
 }

@@ -14,6 +14,9 @@ letter-spacing: -0.2px;
 color: #1C1C1C;
 margin-bottom: 20px;
 }
+.Our_Extra_services .row{
+    ;
+}
 .Our_Extra_services .col-lg-3{
     border-radius: 8px;
 
@@ -22,6 +25,7 @@ margin-bottom: 20px;
     background-color: white;
     /* border: 1px solid #E0E0E0; */
         box-shadow: 0 0 12px 5px #E0E0E0;
+        height: 100%;
 }
 .Our_Extra_services .col-lg-3 img{
     /* object-fit: cover;

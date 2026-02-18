@@ -15,7 +15,7 @@ const Ourextraservices = () => {
           <div className="Our_Extra_services">
         <Container>
           <h2>Our extra services</h2>
-          <Row className='g-md-3'>
+          <Row className='gy-4'>
             <Col lg={3} className='col-md-6 col-sm-6 col-12'>
               <div>
                 <div className="holderImage">

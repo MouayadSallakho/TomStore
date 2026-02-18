@@ -97,7 +97,7 @@
     linear-gradient(180deg, #ffffff 0%, #f6f9ff 100%);
 
   border: 1px solid var(--border);
-  border-radius: var(--radius);
+  /* border-radius: var(--radius); */
   box-shadow: var(--shadowSoft);
 }
 
@@ -255,3 +255,6 @@
     font-size: 28px;
   }
 }
+
+
+

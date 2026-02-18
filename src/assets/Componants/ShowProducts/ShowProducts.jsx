@@ -58,7 +58,9 @@ const ShowProducts = ({ title, slug, bg}) => {
             style={{ backgroundImage: `url(${bg})` }}>
             <div>
               <p>Home and outdoor</p>
-              <NavLink className="link">Source now</NavLink>
+             <NavLink to={`/category/${slug}`} className="link">
+  Source now
+</NavLink>
             </div>
           </Col>
 
@@ -71,7 +73,7 @@ const ShowProducts = ({ title, slug, bg}) => {
               slidesPerView={4} // ✅ 4 columns
               breakpoints={{
                 0: { slidesPerView: 1.7, grid: { rows: 2 } }, // small
-                568: { slidesPerView: 2.7, grid: { rows: 2 } }, // md
+                568: { slidesPerView: 2.3, grid: { rows: 2 } }, // md
                 768: { slidesPerView: 2.7, grid: { rows: 2 } }, // md
                 992: { slidesPerView: 4, grid: { rows: 2 } }, // lg => 8 items visible
               }}
@@ -88,17 +90,22 @@ const ShowProducts = ({ title, slug, bg}) => {
         </div>
       </SwiperSlide>
     ))
-  : products.slice(0, 8).map((p) => (
-      <SwiperSlide key={p.id} className="prodCell">
-        <div className="prodInner">
-          <div>
-            <p className="prodTitle">{p.title}</p>
-            <span className="prodPrice">From USD {p.price}</span>
-          </div>
-          <img src={p.thumbnail} alt={p.title} className="prodImg" />
+: products.slice(0, 8).map((p) => (
+  <SwiperSlide key={p.id} className="prodCell">
+    <NavLink data-aos="fade-right"
+     data-aos-offset="300"
+     data-aos-easing="ease-in-sine"
+       data-aos-duration="800" to={`/product/${p.id}`} className="prodLink">
+      <div className="prodInner">
+        <div>
+          <p className="prodTitle">{p.title}</p>
+          <span className="prodPrice">From USD {p.price}</span>
         </div>
-      </SwiperSlide>
-    ))}
+        <img src={p.thumbnail} alt={p.title} className="prodImg" />
+      </div>
+    </NavLink>
+  </SwiperSlide>
+))}
 
             </Swiper>
           </Col>

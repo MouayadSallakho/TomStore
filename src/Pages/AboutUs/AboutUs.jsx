@@ -33,8 +33,10 @@ const AboutUs = () => {
       {/* Breadcrumb */}
       <div className="AboutBreadcrumb">
         <Container>
-          <Breadcrumb>
-            <Breadcrumb.Item href="#">Home</Breadcrumb.Item>
+          <Breadcrumb className="mb-4">
+            <Breadcrumb.Item as={NavLink} to="/">
+              Home
+            </Breadcrumb.Item>
             <Breadcrumb.Item active>About Us</Breadcrumb.Item>
           </Breadcrumb>
         </Container>
@@ -56,9 +58,12 @@ const AboutUs = () => {
               </p>
 
               <div className="heroActions">
-                <NavLink to="/allProducts" className="btn-primary-tam">
+                {/* ✅ fixed to match App route: /allproducts */}
+                <NavLink to="/allproducts" className="btn-primary-tam">
                   Explore products
                 </NavLink>
+
+                {/* ✅ matches App route: /ContactUs */}
                 <NavLink to="/ContactUs" className="btn-outline-tam">
                   Contact us
                 </NavLink>
@@ -131,7 +136,9 @@ const AboutUs = () => {
                       </div>
                       <div className="timeText">
                         <h5>Founded</h5>
-                        <p>We launched our first collection and started small.</p>
+                        <p>
+                          We launched our first collection and started small.
+                        </p>
                       </div>
                     </div>
 
@@ -143,7 +150,8 @@ const AboutUs = () => {
                       <div className="timeText">
                         <h5>Growth</h5>
                         <p>
-                          We expanded categories and improved delivery operations.
+                          We expanded categories and improved delivery
+                          operations.
                         </p>
                       </div>
                     </div>
@@ -156,7 +164,8 @@ const AboutUs = () => {
                       <div className="timeText">
                         <h5>Today</h5>
                         <p>
-                          A modern store experience — fast, clean, and responsive.
+                          A modern store experience — fast, clean, and
+                          responsive.
                         </p>
                       </div>
                     </div>
@@ -186,7 +195,10 @@ const AboutUs = () => {
                     </div>
                     <div>
                       <h5>Quality Service</h5>
-                      <p>Reliable experience across checkout, delivery, and support.</p>
+                      <p>
+                        Reliable experience across checkout, delivery, and
+                        support.
+                      </p>
                     </div>
                   </div>
 
@@ -196,7 +208,10 @@ const AboutUs = () => {
                     </div>
                     <div>
                       <h5>Innovation</h5>
-                      <p>We keep improving UI/UX and performance with every release.</p>
+                      <p>
+                        We keep improving UI/UX and performance with every
+                        release.
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -235,10 +250,7 @@ const AboutUs = () => {
       {/* CTA */}
       <section className="AboutCTA">
         <Container>
-          <div
-            className="ctaBox"
-            style={{ backgroundImage: `url(${ctaBg})` }}
-          >
+          <div className="ctaBox" style={{ backgroundImage: `url(${ctaBg})` }}>
             <div className="ctaInner">
               <div>
                 <h3>Interested in our products?</h3>
@@ -246,7 +258,8 @@ const AboutUs = () => {
               </div>
 
               <div className="ctaActions">
-                <NavLink to="/allProducts" className="btn-primary-tam">
+                {/* ✅ fixed to match App route: /allproducts */}
+                <NavLink to="/allproducts" className="btn-primary-tam">
                   View products
                 </NavLink>
               </div>

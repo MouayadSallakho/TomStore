@@ -1,4 +1,4 @@
-/* AllProducts.css (FULL) — Pro UI/UX + Pagination bar + Skeletons */
+/* AllProducts.css (FULL) — Pro UI/UX + Pagination bar + Skeletons + Responsive Filters Offcanvas */
 
 :root {
   --mainColorblue: #0D6EFD;
@@ -17,7 +17,8 @@
   --chipHover: #E5F1FF;
 }
 
-body {
+/* ✅ Fix: avoid global body styling */
+.homePage {
   background-color: var(--bg);
   font-family: Inter, sans-serif;
 }
@@ -136,7 +137,7 @@ body {
   margin-bottom: 10px;
 }
 
-.hold-range>div {
+.hold-range > div {
   flex: 1;
 }
 
@@ -159,9 +160,17 @@ body {
   .holder-fillter .accordion::-webkit-scrollbar {
     width: 6px;
   }
+
   .holder-fillter .accordion::-webkit-scrollbar-thumb {
-    background: rgba(0,0,0,.12);
+    background: rgba(0, 0, 0, .12);
     border-radius: 999px;
+  }
+}
+
+/* ===== Mobile spacing for filters column (if it appears somewhere) ===== */
+@media (max-width: 991.98px) {
+  .holder-fillter {
+    margin-bottom: 14px;
   }
 }
 
@@ -283,9 +292,15 @@ body {
   border-radius: var(--radius);
   height: 100%;
   border: 1px solid var(--border);
-  box-shadow: 0 8px 18px rgba(0,0,0,.05);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, .05);
   overflow: hidden;
   transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+}
+
+/* ✅ Better equal-height product cards */
+.Product-list .product-card {
+  display: flex;
+  flex-direction: column;
 }
 
 .Product-list .product-card:hover {
@@ -304,6 +319,9 @@ body {
 
 .Product-list .product-card .text {
   padding: 16px 18px 18px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 /* price row */
@@ -354,11 +372,21 @@ body {
 
 .wishBox:hover {
   background: #f1f6ff;
-  border-color: rgba(13,110,253,.25);
+  border-color: rgba(13, 110, 253, .25);
 }
 
 .wishBox svg {
   color: var(--mainColorblue);
+}
+
+/* Wishlist active state */
+.wishBox.active {
+  background: rgba(250, 52, 52, .08);
+  border-color: rgba(250, 52, 52, .30);
+}
+
+.wishBox.active svg {
+  color: #FA3434;
 }
 
 /* rating */
@@ -397,6 +425,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-top: auto; /* ✅ pushes actions to bottom */
 }
 
 .actionBtns {
@@ -429,7 +458,7 @@ body {
 
 .btnAddCart:hover {
   filter: brightness(0.95);
-  box-shadow: 0 12px 26px rgba(13,110,253,.18);
+  box-shadow: 0 12px 26px rgba(13, 110, 253, .18);
 }
 
 .btnView {
@@ -532,9 +561,11 @@ body {
     grid-template-columns: 1fr;
     gap: 10px;
   }
+
   .rangeInfo {
     text-align: left;
   }
+
   .pager {
     justify-content: space-between;
   }
@@ -659,9 +690,8 @@ body {
   }
 }
 
-
 /* ===== Toast (Added to Cart) ===== */
-.cartToast{
+.cartToast {
   position: fixed;
   left: 16px;
   bottom: 16px;
@@ -669,53 +699,55 @@ body {
   width: min(420px, calc(100% - 32px));
 }
 
-.cartToastInner{
+.cartToastInner {
   background: #fff;
   border: 1px solid #DEE2E7;
   border-radius: 14px;
-  box-shadow: 0 16px 34px rgba(0,0,0,.12);
+  box-shadow: 0 16px 34px rgba(0, 0, 0, .12);
   padding: 12px 12px 12px 14px;
-  display:flex;
-  align-items:center;
+  display: flex;
+  align-items: center;
   justify-content: space-between;
   gap: 10px;
 }
 
-.cartToastText{
-  color:#1C1C1C;
+.cartToastText {
+  color: #1C1C1C;
   font-size: 14px;
-  display:flex;
+  display: flex;
   flex-direction: column;
   gap: 2px;
 }
-.cartToastText .small{
-  color:#8B96A5;
+
+.cartToastText .small {
+  color: #8B96A5;
   font-weight: 600;
   font-size: 13px;
 }
 
-.cartToastActions{
-  display:flex;
-  align-items:center;
+.cartToastActions {
+  display: flex;
+  align-items: center;
   gap: 10px;
 }
 
-.toastBtn{
-  border:none;
+.toastBtn {
+  border: none;
   background: #0D6EFD;
-  color:#fff;
+  color: #fff;
   font-weight: 800;
   border-radius: 10px;
   padding: 8px 10px;
-  cursor:pointer;
+  cursor: pointer;
   transition: .2s;
 }
-.toastBtn:hover{
+
+.toastBtn:hover {
   opacity: .92;
   transform: translateY(-1px);
 }
 
-.toastX{
+.toastX {
   width: 34px;
   height: 34px;
   border-radius: 10px;
@@ -725,16 +757,155 @@ body {
   font-size: 20px;
   line-height: 0;
 }
-.toastX:hover{
+
+.toastX:hover {
   background: #F7FAFC;
 }
 
+/* =========================================================
+   ✅ NEW: Mobile/Tablet Filters Toolbar + Offcanvas Styles
+   (Used with the updated JSX)
+========================================================= */
 
-/* Wishlist active state */
-.wishBox.active{
-  background: rgba(250, 52, 52, .08);
-  border-color: rgba(250, 52, 52, .30);
+/* toolbar row (shows only under 992px) */
+.mobileToolbar {
+  display: none;
 }
-.wishBox.active svg{
-  color: #FA3434;
+
+@media (max-width: 991.98px) {
+  .mobileToolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+}
+
+.btnMobileFilters {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-weight: 900;
+  color: var(--mainColorBlack);
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, .04);
+  transition: .2s;
+}
+
+.btnMobileFilters:hover {
+  transform: translateY(-1px);
+  border-color: rgba(13, 110, 253, .25);
+}
+
+.filtersBadge {
+  margin-left: 2px;
+  min-width: 24px;
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: rgba(13, 110, 253, .12);
+  color: var(--mainColorblue);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.btnMobileClear {
+  border: none;
+  background: none;
+  color: var(--mainColorblue);
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.btnMobileClear:hover {
+  text-decoration: underline;
+}
+
+/* Offcanvas polish */
+.filtersOffcanvas .offcanvas-header {
+  border-bottom: 1px solid #EFF2F4;
+}
+
+.filtersOffcanvas .offcanvas-title {
+  font-weight: 900;
+  color: var(--mainColorBlack);
+}
+
+/* inside offcanvas content spacing */
+.filtersMobileWrap {
+  padding-bottom: 70px; /* space for sticky bottom button */
+}
+
+.filtersMobileTop {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.filtersClearBtn {
+  border: none;
+  background: none;
+  color: var(--mainColorblue);
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.filtersClearBtn:hover {
+  text-decoration: underline;
+}
+
+.filtersMobileBottom {
+  position: sticky;
+  bottom: 0;
+  padding-top: 12px;
+  background: #fff;
+}
+
+.filtersApplyBtn {
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  padding: 12px;
+  background: var(--mainColorblue);
+  color: #fff;
+  font-weight: 900;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.filtersApplyBtn:hover {
+  opacity: .92;
+  transform: translateY(-1px);
+}
+
+
+/* Desktop only: make the filter column sticky */
+@media (min-width: 992px) {
+  .holder-fillter {
+    position: sticky;
+    top: 10px;          /* adjust based on your Header height */
+    height: calc(100vh - 90px);
+    overflow-y: auto;   /* so filters can scroll if long */
+    align-self: flex-start;
+  }
+
+  /* optional: hide scrollbar nicely */
+  .holder-fillter::-webkit-scrollbar {
+    width: 6px;
+  }
+}
+
+@media(max-width:992px){
+  .SorcThePage{
+  margin-bottom: 30px !important;
+  }
+
 }

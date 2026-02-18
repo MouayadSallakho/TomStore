@@ -1,8 +1,11 @@
-// Details.jsx (Improved Premium Skeleton)
+// Details.jsx (Context Version: Add to cart + Wishlist + Related products)
+// ✅ No localStorage here
+// ✅ Uses ShopContext like AllProducts
+// ✅ No "save for later"
 
 import React, { useEffect, useMemo, useState } from "react";
 import { Container, Row, Col, Breadcrumb } from "react-bootstrap";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useParams, useNavigate } from "react-router-dom";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
@@ -10,14 +13,12 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-import { FaRegHeart } from "react-icons/fa";
-import { MdOutlineVerifiedUser } from "react-icons/md";
+import { FaRegHeart, FaStar } from "react-icons/fa";
+import { FaHeart, FaCheck } from "react-icons/fa6";
+import { MdOutlineVerifiedUser, MdOutlineContactEmergency } from "react-icons/md";
 import { TbWorld } from "react-icons/tb";
 import { MdOutlineMessage } from "react-icons/md";
 import { IoMdBasket } from "react-icons/io";
-import { FaStar } from "react-icons/fa";
-import { MdOutlineContactEmergency } from "react-icons/md";
-import { FaCheck } from "react-icons/fa6";
 
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
@@ -26,12 +27,17 @@ import "./Details.css";
 import Footer from "../../assets/Componants/Footer/Footer";
 import Header from "../../assets/Componants/Header/Header";
 
+// ✅ CONTEXT
+import { useShop } from "../../context/ShopContext";
+
 // fallback images
 import fb1 from "../../assets/Images/imageshort1.png";
 import fb2 from "../../assets/Images/imageshort2.png";
 import fb3 from "../../assets/Images/imageshort3.png";
 import fb4 from "../../assets/Images/imageshort4.png";
 import fb5 from "../../assets/Images/imageshort5.png";
+
+const clampQty = (n) => Math.max(1, Math.min(99, Number(n) || 1));
 
 /* ---------------------------
    Skeleton Components
@@ -161,6 +167,10 @@ const RelatedSkeleton = ({ count = 6 }) => {
 
 const Details = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
+
+  // ✅ CONTEXT
+  const { addToCart, toggleWishlist, isInWishlist } = useShop();
 
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -170,10 +180,31 @@ const Details = () => {
   const [related, setRelated] = useState([]);
   const [relLoading, setRelLoading] = useState(false);
 
-  // fallback images
+  // ✅ UX states
+  const [qty, setQty] = useState(1);
+  const [addedPulse, setAddedPulse] = useState(false);
+
+  // ✅ Toast (same style behavior as your AllProducts)
+  const [toast, setToast] = useState({
+    open: false,
+    text: "",
+    productTitle: "",
+    action: "cart", // "cart" | "wishlist"
+  });
+
+  const openToast = (text, productTitle = "", action = "cart") => {
+    setToast({ open: true, text, productTitle, action });
+    window.clearTimeout(openToast._t);
+    openToast._t = window.setTimeout(() => {
+      setToast({ open: false, text: "", productTitle: "", action: "cart" });
+    }, 2500);
+  };
+
+  const toastRoute = toast.action === "wishlist" ? "/wishlist" : "/Cart";
+  const toastBtnLabel = toast.action === "wishlist" ? "Go to wishlist" : "Go to cart";
+
   const fallbackImgs = [fb1, fb2, fb3, fb4, fb5];
 
-  // gallery always 6 thumbnails (api + fallback)
   const galleryImages = useMemo(() => {
     const apiImgs = Array.isArray(product?.images) ? product.images : [];
     const unique = Array.from(new Set(apiImgs));
@@ -181,12 +212,20 @@ const Details = () => {
     return [...unique, ...fallbackImgs.slice(0, need)].slice(0, 6);
   }, [product]);
 
-  // Fetch product by id
+  const stars = useMemo(() => {
+    const r = Math.round(Number(product?.rating || 0));
+    return Array.from({ length: 5 }, (_, i) => i < r);
+  }, [product?.rating]);
+
+  const inStock = (product?.stock ?? 0) > 0;
+
+  // Fetch product
   useEffect(() => {
     if (!id) return;
 
     setLoading(true);
     setErr(null);
+    setProduct(null);
 
     fetch(`https://dummyjson.com/products/${id}`)
       .then((res) => {
@@ -196,6 +235,8 @@ const Details = () => {
       .then((data) => {
         setProduct(data);
         setActiveImg(data?.thumbnail || data?.images?.[0] || fb1);
+        setQty(1);
+        window.scrollTo({ top: 0, behavior: "smooth" });
       })
       .catch((e) => {
         setErr(e.message);
@@ -204,7 +245,7 @@ const Details = () => {
       .finally(() => setLoading(false));
   }, [id]);
 
-  // Fetch related products by category
+  // Fetch related
   useEffect(() => {
     if (!product?.category) return;
 
@@ -213,21 +254,41 @@ const Details = () => {
     fetch(`https://dummyjson.com/products/category/${product.category}?limit=10`)
       .then((res) => res.json())
       .then((data) => {
-        const list = (data?.products || []).filter((p) => p.id !== product.id);
+        const list = (data?.products || []).filter((p) => String(p.id) !== String(product.id));
         setRelated(list.slice(0, 6));
       })
       .catch(() => setRelated([]))
       .finally(() => setRelLoading(false));
   }, [product?.category, product?.id]);
 
-  const stars = useMemo(() => {
-    const r = Math.round(Number(product?.rating || 0));
-    return Array.from({ length: 5 }, (_, i) => i < r);
-  }, [product?.rating]);
+  const decQty = () => setQty((q) => clampQty(q - 1));
+  const incQty = () => setQty((q) => clampQty(q + 1));
 
-  const inStock = (product?.stock ?? 0) > 0;
+  const handleAddToCart = () => {
+    if (!product || !inStock) return;
 
-  // Error state
+    addToCart(product, qty); // ✅ context
+    setAddedPulse(true);
+    setTimeout(() => setAddedPulse(false), 850);
+
+    setQty(1);
+    openToast("Added to cart", product.title, "cart");
+  };
+
+  const handleToggleWishlist = () => {
+    if (!product) return;
+
+    const willBeInWishlist = !isInWishlist(product.id);
+    toggleWishlist(product); // ✅ context
+
+    openToast(
+      willBeInWishlist ? "Added to wishlist" : "Removed from wishlist",
+      product.title,
+      "wishlist"
+    );
+  };
+
+  // Error UI
   if (err) {
     return (
       <div>
@@ -235,7 +296,12 @@ const Details = () => {
         <div className="SorcThePage">
           <Container>
             <Breadcrumb>
-              <Breadcrumb.Item href="#">Home</Breadcrumb.Item>
+              <Breadcrumb.Item as={NavLink} to="/">
+                Home
+              </Breadcrumb.Item>
+              <Breadcrumb.Item as={NavLink} to="/allproducts">
+                All Products
+              </Breadcrumb.Item>
               <Breadcrumb.Item active>Product</Breadcrumb.Item>
             </Breadcrumb>
           </Container>
@@ -258,8 +324,12 @@ const Details = () => {
       <div className="SorcThePage">
         <Container>
           <Breadcrumb>
-            <Breadcrumb.Item href="#">Home</Breadcrumb.Item>
-            <Breadcrumb.Item href="#">All Products</Breadcrumb.Item>
+            <Breadcrumb.Item as={NavLink} to="/">
+              Home
+            </Breadcrumb.Item>
+            <Breadcrumb.Item as={NavLink} to="/allproducts">
+              All Products
+            </Breadcrumb.Item>
             <Breadcrumb.Item active>
               {loading ? "Loading..." : product?.title || "Product"}
             </Breadcrumb.Item>
@@ -287,6 +357,11 @@ const Details = () => {
                         className={`col-2 ${activeImg === img ? "thumbActive" : ""}`}
                         key={img + idx}
                         onClick={() => setActiveImg(img)}
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") setActiveImg(img);
+                        }}
                       >
                         <img src={img} alt={`thumb-${idx}`} />
                       </div>
@@ -295,7 +370,7 @@ const Details = () => {
                 </div>
 
                 {/* Main info */}
-                <div className="col-lg-6">
+                <div className="col-lg-6 ">
                   <p>
                     <FaCheck /> {inStock ? "In stock" : "Out of stock"}
                   </p>
@@ -311,7 +386,7 @@ const Details = () => {
                           </li>
                         ))}
                       </ul>
-                      <span>{Number(product.rating).toFixed(1)}</span>
+                      <span>{Number(product.rating || 0).toFixed(1)}</span>
                     </div>
 
                     <span className="point"></span>
@@ -330,7 +405,7 @@ const Details = () => {
                   <div className="infoAboutPrice">
                     <div>
                       <p className="active">${product.price}</p>
-                      <span>Discount: {Math.round(product.discountPercentage)}%</span>
+                      <span>Discount: {Math.round(product.discountPercentage || 0)}%</span>
                     </div>
 
                     <div className="middle">
@@ -344,7 +419,7 @@ const Details = () => {
                     </div>
                   </div>
 
-                  {/* Dynamic Specs */}
+                  {/* Specs */}
                   <div className="tableDetails">
                     <div className="row g-0">
                       <div className="col-12 col-sm-4 fw-medium px-3 py-2 litl-color">
@@ -371,12 +446,14 @@ const Details = () => {
                       <div className="col-12 col-sm-4 fw-medium px-3 py-2 litl-color">
                         Availability:
                       </div>
-                      <div className="col-12 col-sm-8 px-3 py-2">{inStock ? "Available" : "Not available"}</div>
+                      <div className="col-12 col-sm-8 px-3 py-2">
+                        {inStock ? "Available" : "Not available"}
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                {/* Seller side (UI) */}
+                {/* RIGHT: Buy Box */}
                 <div className="col-lg-3">
                   <div className="content">
                     <div className="RRR">
@@ -399,20 +476,42 @@ const Details = () => {
                       </p>
                     </div>
 
-                    <div className="holderButtons">
-                      <button className="btn btn-primary w-100 mb-3" type="button">
-                        Send inquiry
+                    {/* Quantity + Add to cart */}
+                    <div className="buyBox">
+                      <div className="qtyRow">
+                        <span className="qtyLabel">Quantity</span>
+
+                        <div className="qtyControl">
+                          <button type="button" onClick={decQty} aria-label="Decrease quantity">
+                            −
+                          </button>
+                          <span>{qty}</span>
+                          <button type="button" onClick={incQty} aria-label="Increase quantity">
+                            +
+                          </button>
+                        </div>
+                      </div>
+
+                      <button
+                        type="button"
+                        className={`btnAddCart ${addedPulse ? "addedPulse" : ""}`}
+                        onClick={handleAddToCart}
+                        disabled={!inStock}
+                      >
+                        <IoMdBasket />
+                        {inStock ? "Add to cart" : "Out of stock"}
                       </button>
-                      <button className="btn btn-primary w-100" type="button">
-                        Seller’s profile
+
+                      <button
+                        type="button"
+                        className={`btnWishlist ${isInWishlist(product.id) ? "active" : ""}`}
+                        onClick={handleToggleWishlist}
+                        aria-label="Toggle wishlist"
+                      >
+                        {isInWishlist(product.id) ? <FaHeart /> : <FaRegHeart />}
+                        {isInWishlist(product.id) ? "Saved to wishlist" : "Save to wishlist"}
                       </button>
                     </div>
-                  </div>
-
-                  <div className="saveForLater">
-                    <span>
-                      <FaRegHeart /> Save for later
-                    </span>
                   </div>
                 </div>
               </div>
@@ -492,6 +591,8 @@ const Details = () => {
                   spaceBetween={14}
                   pagination={{ clickable: true }}
                   navigation
+                  preventClicks={false}
+                  preventClicksPropagation={false}
                   breakpoints={{
                     0: { slidesPerView: 1.3 },
                     480: { slidesPerView: 2.1 },
@@ -558,6 +659,33 @@ const Details = () => {
           </div>
         </div>
       </Container>
+
+      {/* Toast */}
+      {toast.open && (
+        <div className="cartToast" role="status" aria-live="polite">
+          <div className="cartToastInner">
+            <div className="cartToastText">
+              <b>{toast.text}</b>
+              {toast.productTitle ? <span className="small"> {toast.productTitle}</span> : null}
+            </div>
+
+            <div className="cartToastActions">
+              <button type="button" className="toastBtn" onClick={() => navigate(toastRoute)}>
+                {toastBtnLabel}
+              </button>
+
+              <button
+                type="button"
+                className="toastX"
+                onClick={() => setToast({ open: false, text: "", productTitle: "", action: "cart" })}
+                aria-label="Close"
+              >
+                ×
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <Footer />
     </div>

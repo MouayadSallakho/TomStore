@@ -8,7 +8,7 @@ const OrderqQuantities = () => {
       <div className="anotherOrder">
         <Container>
           <Row>
-            <Col className="col-lg-6">
+            <Col className="col-lg-6 col-12">
               <div className="left">
                 <p>
                   An easy way to send <br /> requests to all suppliers
@@ -19,7 +19,7 @@ const OrderqQuantities = () => {
                 </span>
               </div>
             </Col>
-            <Col className="col-lg-6">
+            <Col className="col-lg-6 col-12">
               <div className="right">
                 <form>
                   <p>Send quote to suppliers</p>

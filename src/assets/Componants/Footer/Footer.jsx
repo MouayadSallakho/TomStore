@@ -17,7 +17,7 @@ const Footer = () => {
   return (
           <footer >
         <Container>
-          <Row>
+          <Row className="g-md-5 g-sm-5 g-4">
             <Col lg={3}>
             <Navbar.Brand  to="/" className="">
               <div className="style-logo">
@@ -40,7 +40,7 @@ const Footer = () => {
               </div>
             </Col>
             <Col lg={9}>
-              <Row className="row-cols-lg-5">
+              <Row className="row-cols-2 row-cols-lg-5  row-cols-sm-3 g-4">
                               <Col >
               <p>About</p>
               <ul>

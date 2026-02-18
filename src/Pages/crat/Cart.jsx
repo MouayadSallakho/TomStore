@@ -11,7 +11,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-
 import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper/modules";
 
 import payment1 from "../../assets/Images/payment1.png";
@@ -20,75 +19,42 @@ import payment3 from "../../assets/Images/payment3.png";
 import payment4 from "../../assets/Images/payment4.png";
 import payment5 from "../../assets/Images/payment5.png";
 
-const CART_KEY = "cart";
-const SAVED_KEY = "savedForLater";
-
-const readLS = (key) => {
-  try {
-    const raw = localStorage.getItem(key);
-    return raw ? JSON.parse(raw) : [];
-  } catch {
-    return [];
-  }
-};
-
-const writeLS = (key, value) => {
-  localStorage.setItem(key, JSON.stringify(value));
-};
-
-const clampQty = (n) => Math.max(1, Math.min(99, Number(n) || 1));
-
-// ✅ avoid id type issues: "5" vs 5
-const sameId = (a, b) => String(a) === String(b);
+// ✅ CONTEXT
+import { useShop } from "../../context/ShopContext"; // adjust path if needed
 
 const Cart = () => {
-  // ✅ init from localStorage
-  const [cart, setCart] = useState(() => readLS(CART_KEY));
-  const [saved, setSaved] = useState(() => readLS(SAVED_KEY));
+  // ✅ context state/actions
+  const {
+    cart,
+    savedForLater: saved,
+
+    // cart actions
+    updateCartQty,
+    removeFromCart,
+    clearCart,
+
+    // saved actions
+    saveForLater,
+    removeSaved,
+    clearSaved,
+    moveSavedToCart,
+  } = useShop();
 
   const [coupon, setCoupon] = useState("");
   const [couponApplied, setCouponApplied] = useState(false);
 
-  // ✅ persist cart
-  useEffect(() => {
-    writeLS(CART_KEY, cart);
-    window.dispatchEvent(new Event("cartUpdated"));
-  }, [cart]);
-
-  // ✅ persist saved
-  useEffect(() => {
-    writeLS(SAVED_KEY, saved);
-    window.dispatchEvent(new Event("savedUpdated"));
-  }, [saved]);
-
-  // ✅ optional sync (if another page changes LS while cart is open)
-  useEffect(() => {
-    const sync = () => {
-      setCart(readLS(CART_KEY));
-      setSaved(readLS(SAVED_KEY));
-    };
-
-    window.addEventListener("cart:changed", sync);
-    window.addEventListener("storage", sync);
-
-    return () => {
-      window.removeEventListener("cart:changed", sync);
-      window.removeEventListener("storage", sync);
-    };
-  }, []);
-
   const itemsCount = useMemo(
     () => cart.reduce((sum, item) => sum + (item.qty || 1), 0),
-    [cart],
+    [cart]
   );
 
   const subtotal = useMemo(
     () =>
       cart.reduce(
         (sum, item) => sum + Number(item.price || 0) * (item.qty || 1),
-        0,
+        0
       ),
-    [cart],
+    [cart]
   );
 
   const discount = useMemo(() => {
@@ -104,71 +70,23 @@ const Cart = () => {
   }, [subtotal, discount, tax]);
 
   const updateQty = (id, nextQty) => {
-    setCart((prev) =>
-      prev.map((item) =>
-        sameId(item.id, id) ? { ...item, qty: clampQty(nextQty) } : item,
-      ),
-    );
+    updateCartQty(id, nextQty);
   };
 
   const removeItem = (id) => {
-    setCart((prev) => prev.filter((item) => !sameId(item.id, id)));
+    removeFromCart(id);
   };
 
-  const removeAll = () => setCart([]);
+  const removeAll = () => clearCart();
 
-  // ✅ Cart -> Saved
-  const saveForLater = (item) => {
-    // remove from cart
-    setCart((prev) => prev.filter((x) => !sameId(x.id, item.id)));
-
-    // add to saved (no duplicates)
-    setSaved((prev) => {
-      const exists = prev.some((x) => sameId(x.id, item.id));
-      if (exists) return prev;
-      return [{ ...item, savedAt: Date.now() }, ...prev];
-    });
-
-    window.dispatchEvent(new Event("savedUpdated"));
+  // ✅ Cart -> Saved (context already handles removing from cart + adding saved)
+  const saveItemForLater = (item) => {
+    saveForLater(item);
   };
 
-  const removeSaved = (id) => {
-    setSaved((prev) => prev.filter((x) => !sameId(x.id, id)));
-  };
-
-  const clearSaved = () => setSaved([]);
-
-  // ✅ Saved -> Cart (FIXED)
+  // ✅ Saved -> Cart
   const moveToCart = (item) => {
-    // 1) remove from saved
-    setSaved((prev) => prev.filter((x) => !sameId(x.id, item.id)));
-
-    // 2) add/merge into cart
-    setCart((prev) => {
-      const copy = [...prev];
-      const idx = copy.findIndex((x) => sameId(x.id, item.id));
-      const qtyToAdd = clampQty(item.qty || 1);
-
-      if (idx >= 0) {
-        copy[idx] = {
-          ...copy[idx],
-          qty: clampQty((copy[idx].qty || 1) + qtyToAdd),
-        };
-      } else {
-        copy.push({
-          id: item.id,
-          title: item.title,
-          price: Number(item.price) || 0,
-          thumbnail: item.thumbnail,
-          qty: qtyToAdd,
-        });
-      }
-
-      return copy;
-    });
-
-    // optional event for Header badge
-    window.dispatchEvent(new Event("cart:changed"));
+    moveSavedToCart(item);
   };
 
   const applyCoupon = () => {
@@ -253,7 +171,7 @@ const Cart = () => {
                               <button
                                 type="button"
                                 className="btnGhost"
-                                onClick={() => saveForLater(item)}
+                                onClick={() => saveItemForLater(item)}
                               >
                                 Save for later
                               </button>
@@ -300,7 +218,7 @@ const Cart = () => {
                             <p className="lineTotal">
                               $
                               {(Number(item.price) * (item.qty || 1)).toFixed(
-                                2,
+                                2
                               )}
                             </p>
                           </div>
@@ -323,84 +241,6 @@ const Cart = () => {
                     </div>
                   </>
                 )}
-
-                {/* ✅ Saved for later */}
-                <div className="savedBox">
-                  <div className="savedHeader">
-                    <h4>Saved for later ({saved.length})</h4>
-
-                    {saved.length > 0 && (
-                      <button
-                        type="button"
-                        className="btnClearSaved"
-                        onClick={clearSaved}
-                      >
-                        Clear saved
-                      </button>
-                    )}
-                  </div>
-
-                  {saved.length === 0 ? (
-                    <p className="savedEmpty">No saved items yet.</p>
-                  ) : (
-<Swiper
-  modules={[Navigation, Pagination, Mousewheel, Keyboard]}
-  spaceBetween={14}
-  navigation
-  pagination={{ clickable: true }}
-  mousewheel={{ forceToAxis: true }}
-  keyboard={{ enabled: true }}
-  breakpoints={{
-    0: { slidesPerView: 1.1 },
-    576: { slidesPerView: 2.1 },
-    768: { slidesPerView: 2.6 },
-    992: { slidesPerView: 3.1 },
-    1200: { slidesPerView: 3.6 },
-  }}
-  className="savedSwiper"
->
-  {saved.map((item) => (
-    <SwiperSlide key={item.id}>
-      <div className="savedCard">
-        <NavLink to={`/product/${item.id}`} className="cartProductLink">
-          <div className="savedImg">
-            <img src={item.thumbnail} alt={item.title} />
-          </div>
-        </NavLink>
-
-        <div className="savedInfo">
-          <NavLink to={`/product/${item.id}`} className="cartProductLink">
-            <p className="savedTitle" title={item.title}>
-              {item.title}
-            </p>
-          </NavLink>
-
-          <p className="savedPrice">${Number(item.price).toFixed(2)}</p>
-
-          <div className="savedActions">
-            <button
-              type="button"
-              className="btnMoveToCart"
-              onClick={() => moveToCart(item)}
-            >
-              Move to cart
-            </button>
-
-            <button
-              type="button"
-              className="btnRemoveSaved"
-              onClick={() => removeSaved(item.id)}
-            >
-              Remove
-            </button>
-          </div>
-        </div>
-      </div>
-    </SwiperSlide>
-  ))}
-</Swiper>
-                  )}
-                </div>
               </div>
             </Col>
 
@@ -478,6 +318,88 @@ const Cart = () => {
         </Container>
       </div>
 
+      <Container>
+        {/* ✅ Saved for later */}
+        <div className="savedBox">
+          <div className="savedHeader">
+            <h4>Saved for later ({saved.length})</h4>
+
+            {saved.length > 0 && (
+              <button
+                type="button"
+                className="btnClearSaved"
+                onClick={clearSaved}
+              >
+                Clear saved
+              </button>
+            )}
+          </div>
+
+          {saved.length === 0 ? (
+            <p className="savedEmpty">No saved items yet.</p>
+          ) : (
+            <Swiper
+              modules={[Navigation, Pagination, Mousewheel, Keyboard]}
+              spaceBetween={14}
+              navigation
+              pagination={{ clickable: true }}
+              mousewheel={{ forceToAxis: true }}
+              keyboard={{ enabled: true }}
+              breakpoints={{
+                0: { slidesPerView: 1.1 },
+                576: { slidesPerView: 2.1 },
+                768: { slidesPerView: 2.6 },
+                992: { slidesPerView: 3.1 },
+                1200: { slidesPerView: 3.6 },
+              }}
+              className="savedSwiper"
+            >
+              {saved.map((item) => (
+                <SwiperSlide key={item.id}>
+                  <div className="savedCard">
+                    <NavLink to={`/product/${item.id}`} className="cartProductLink">
+                      <div className="savedImg">
+                        <img src={item.thumbnail} alt={item.title} />
+                      </div>
+                    </NavLink>
+
+                    <div className="savedInfo">
+                      <NavLink to={`/product/${item.id}`} className="cartProductLink">
+                        <p className="savedTitle" title={item.title}>
+                          {item.title}
+                        </p>
+                      </NavLink>
+
+                      <p className="savedPrice">
+                        ${Number(item.price).toFixed(2)}
+                      </p>
+
+                      <div className="savedActions">
+                        <button
+                          type="button"
+                          className="btnMoveToCart"
+                          onClick={() => moveToCart(item)}
+                        >
+                          Move to cart
+                        </button>
+
+                        <button
+                          type="button"
+                          className="btnRemoveSaved"
+                          onClick={() => removeSaved(item.id)}
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          )}
+        </div>
+      </Container>
+
       {/* Guarantee */}
       <div className="cartGuarantee">
         <Container>
@@ -512,6 +434,19 @@ const Cart = () => {
           </div>
         </Container>
       </div>
+
+      <Container>
+        <div className="banner">
+          <div className="bannerContent">
+            <div>
+              <h4>Super discount on more than 100 USD</h4>
+              <p>Have you ever finally just write dummy info</p>
+            </div>
+
+            <button className="btn btn-warning">Shop now</button>
+          </div>
+        </div>
+      </Container>
 
       <Footer />
     </div>

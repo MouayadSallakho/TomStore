@@ -204,3 +204,37 @@ a { text-decoration: none; }
 .btnRemoveWish:hover {
   transform: translateY(-1px);
 }
+
+
+
+
+
+/* Start baner */
+
+.banner {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  padding: 24px;
+  background: #2f80ff;
+  color: #fff;
+}
+
+.banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #0b5ed7;
+  clip-path: polygon(60% 0, 100% 0, 100% 100%, 45% 100%); /* diagonal shape */
+}
+
+.bannerContent {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
