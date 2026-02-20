@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Container, Col, Row } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { ENDPOINTS } from "../../../api/endpoints";
@@ -19,6 +19,9 @@ const RecommendedItems = ({
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  // ✅ Fix for "swipe then link clicks"
+  const isDraggingRef = useRef(false);
 
   useEffect(() => {
     setLoading(true);
@@ -53,9 +56,7 @@ const RecommendedItems = ({
             {loading
               ? Array.from({ length: limit }).map((_, i) => (
                   <Col key={`sk-d-${i}`}>
-                    <div 
-                    
-        className="rec-card rec-skeleton">
+                    <div className="rec-card rec-skeleton">
                       <div className="sk-rec-img"></div>
                       <div className="sk-rec-price"></div>
                       <div className="sk-rec-title"></div>
@@ -64,11 +65,11 @@ const RecommendedItems = ({
                 ))
               : products.slice(0, limit).map((p) => (
                   <Col key={p.id}>
-                    <NavLink data-aos="fade-up"
-     data-aos-offset="300"
-     data-aos-easing="ease-in-sine"
-       data-aos-duration="1200"
-
+                    <NavLink
+                      data-aos="fade-up"
+                      data-aos-offset="300"
+                      data-aos-easing="ease-in-sine"
+                      data-aos-duration="1200"
                       to={`/product/${p.id}`}
                       className="rec-link"
                       aria-label={`Open ${p.title}`}
@@ -90,8 +91,25 @@ const RecommendedItems = ({
             spaceBetween={12}
             modules={[Pagination]}
             pagination={{ clickable: true }}
-            preventClicks={false}
-            preventClicksPropagation={false}
+
+            // ✅ IMPORTANT: stop click after drag
+            preventClicks={true}
+            preventClicksPropagation={true}
+
+            // ✅ Detect drag/swipe reliably
+            onSliderFirstMove={() => {
+              isDraggingRef.current = true;
+            }}
+            onTouchMove={() => {
+              isDraggingRef.current = true;
+            }}
+            onTouchEnd={() => {
+              // delay reset so "click" event doesn't slip through
+              setTimeout(() => {
+                isDraggingRef.current = false;
+              }, 0);
+            }}
+
             breakpoints={{
               0: { slidesPerView: 1.7 },
               576: { slidesPerView: 2.5 },
@@ -111,14 +129,21 @@ const RecommendedItems = ({
               : products.slice(0, limit).map((p) => (
                   <SwiperSlide key={p.id}>
                     <NavLink
-                    data-aos="fade-up"
-     data-aos-offset="300"
-     data-aos-easing="ease-in-sine"
-       data-aos-duration="1200"
-       
+                      data-aos="fade-up"
+                      data-aos-offset="300"
+                      data-aos-easing="ease-in-sine"
+                      data-aos-duration="1200"
                       to={`/product/${p.id}`}
                       className="rec-link"
                       aria-label={`Open ${p.title}`}
+
+                      // ✅ Block navigation if user was swiping
+                      onClick={(e) => {
+                        if (isDraggingRef.current) {
+                          e.preventDefault();
+                          e.stopPropagation();
+                        }
+                      }}
                     >
                       <div className="rec-card">
                         <img src={p.thumbnail} alt={p.title} />

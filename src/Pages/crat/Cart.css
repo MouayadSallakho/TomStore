@@ -701,3 +701,8 @@ a{ text-decoration:none; }
   justify-content: space-between;
   gap: 16px;
 }
+
+
+.savedBox img{
+  object-fit: contain !important;
+}

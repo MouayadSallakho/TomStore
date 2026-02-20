@@ -1,3 +1,9 @@
+/* ================================
+   Premium Toast (drop-in)
+   Keeps your existing classnames
+================================ */
+
+/* Host */
 .cartToastHost {
   position: fixed;
   left: 16px;
@@ -6,7 +12,7 @@
   width: min(420px, calc(100% - 32px));
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
   pointer-events: none;
 }
 
@@ -18,100 +24,306 @@
   }
 }
 
+/* Toast wrapper */
 .cartToast {
   pointer-events: auto;
-  animation: toastSlideIn 0.22s ease-out;
+  animation: toastPopIn 0.28s cubic-bezier(0.2, 0.9, 0.2, 1);
+  transform-origin: left bottom;
 }
 
+/* Inner (glass + gradient border) */
 .cartToastInner {
-  background: #ffffff;
-  border: 1px solid #dee2e7;
-  border-radius: 14px;
-  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.12);
-  padding: 12px 12px 12px 14px;
-  display: flex;
+  position: relative;
+  overflow: hidden;
+
+  /* Glass look */
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  /* “Gradient border” trick */
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 16px;
+
+  /* Premium shadow */
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.18),
+    0 2px 0 rgba(255, 255, 255, 0.35) inset;
+
+  padding: 12px 12px 12px 12px;
+  display: grid;
+  grid-template-columns: 44px 1fr auto;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px;
+  gap: 12px;
+
+  transform: translateZ(0);
 }
 
+/* Left icon badge (no JSX needed) */
+.cartToastInner::before {
+  content: "";
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  display: block;
+
+  /* default look (will be overridden per type) */
+  background: linear-gradient(135deg, rgba(13, 110, 253, 0.22), rgba(13, 110, 253, 0.08));
+  border: 1px solid rgba(13, 110, 253, 0.25);
+
+  box-shadow:
+    0 10px 20px rgba(13, 110, 253, 0.18),
+    0 1px 0 rgba(255, 255, 255, 0.45) inset;
+
+  place-self: center;
+}
+
+/* Add a small “check / info / warning / danger” glyph using CSS only */
+.cartToast--success .cartToastInner::before { content: "✓"; }
+.cartToast--info .cartToastInner::before { content: "i"; }
+.cartToast--warning .cartToastInner::before { content: "!"; }
+.cartToast--danger .cartToastInner::before { content: "×"; }
+
+.cartToastInner::before {
+  color: #0d6efd;
+  font-weight: 900;
+  font-size: 18px;
+  line-height: 40px;
+  text-align: center;
+}
+
+/* Text */
 .cartToastText {
-  color: #1c1c1c;
+  color: #111827;
   font-size: 14px;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
+  min-width: 0;
+}
+
+.cartToastText b {
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  line-height: 1.15;
 }
 
 .cartToastText .small {
-  color: #8b96a5;
+  color: rgba(17, 24, 39, 0.65);
   font-weight: 600;
   font-size: 13px;
+  line-height: 1.2;
+
+  /* prevent long text from breaking layout */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
+/* Actions */
 .cartToastActions {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
+/* Premium button */
 .toastBtn {
-  border: none;
-  background: #0d6efd;
-  color: #fff;
-  font-weight: 800;
-  border-radius: 10px;
-  padding: 8px 10px;
+  border: 0;
+  color: #0b1220;
+  font-weight: 900;
+  border-radius: 12px;
+  padding: 9px 12px;
   cursor: pointer;
-  transition: 0.18s;
+  transition: transform 0.18s ease, filter 0.18s ease, box-shadow 0.18s ease;
   white-space: nowrap;
+
+  background: linear-gradient(135deg, #fff, #f3f4f6);
+  box-shadow:
+    0 10px 18px rgba(0, 0, 0, 0.12),
+    0 1px 0 rgba(255, 255, 255, 0.6) inset;
+    margin-bottom: 10px;
 }
 
 .toastBtn:hover {
-  opacity: 0.92;
   transform: translateY(-1px);
+  filter: brightness(0.98);
 }
 
+.toastBtn:active {
+  transform: translateY(0px) scale(0.98);
+}
+
+/* Close button */
 .toastX {
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
-  border: 1px solid #dee2e7;
-  background: #fff;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  border: 1px solid rgba(17, 24, 39, 0.12);
+  background: rgba(255, 255, 255, 0.75);
   cursor: pointer;
   font-size: 20px;
   line-height: 0;
+  transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
 }
 
 .toastX:hover {
-  background: #f7fafc;
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(17, 24, 39, 0.18);
+  transform: translateY(-1px);
 }
 
-/* Variants */
+.toastX:active {
+  transform: translateY(0px) scale(0.98);
+}
+
+/* Progress bar (pure CSS)
+   NOTE: your JS duration is 2600ms default.
+   If you want exact sync, see note below.
+*/
+.cartToastInner::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 8px;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(17, 24, 39, 0.12);
+  overflow: hidden;
+}
+
+.cartToastInner::after {
+  /* base track stays; fill is separate pseudo element via box-shadow trick */
+  box-shadow: inset 0 0 0 999px rgba(17, 24, 39, 0.12);
+}
+
+/* Fill bar using a child overlay via background-size animation */
+.cartToast {
+  position: relative;
+}
+
+.cartToast::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 8px;
+  height: 3px;
+  border-radius: 999px;
+
+  background: linear-gradient(90deg, rgba(13, 110, 253, 0.95), rgba(13, 110, 253, 0.35));
+  transform-origin: left;
+  animation: toastProgress 2.6s linear forwards;
+  pointer-events: none;
+}
+
+/* Variants (colors + badge + button accent) */
 .cartToast--success .cartToastInner {
-  border-left: 3px solid #22c55e;
+  border-color: rgba(34, 197, 94, 0.25);
+}
+.cartToast--success .cartToastInner::before {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.22), rgba(34, 197, 94, 0.08));
+  border-color: rgba(34, 197, 94, 0.25);
+  color: #16a34a;
+  box-shadow: 0 10px 20px rgba(34, 197, 94, 0.18), 0 1px 0 rgba(255, 255, 255, 0.45) inset;
+}
+.cartToast--success::after {
+  background: linear-gradient(90deg, rgba(34, 197, 94, 0.95), rgba(34, 197, 94, 0.35));
 }
 
 .cartToast--info .cartToastInner {
-  border-left: 3px solid #0ea5e9;
+  border-color: rgba(14, 165, 233, 0.28);
+}
+.cartToast--info .cartToastInner::before {
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.22), rgba(14, 165, 233, 0.08));
+  border-color: rgba(14, 165, 233, 0.28);
+  color: #0284c7;
+  box-shadow: 0 10px 20px rgba(14, 165, 233, 0.18), 0 1px 0 rgba(255, 255, 255, 0.45) inset;
+}
+.cartToast--info::after {
+  background: linear-gradient(90deg, rgba(14, 165, 233, 0.95), rgba(14, 165, 233, 0.35));
 }
 
 .cartToast--warning .cartToastInner {
-  border-left: 3px solid #facc15;
+  border-color: rgba(250, 204, 21, 0.35);
+}
+.cartToast--warning .cartToastInner::before {
+  background: linear-gradient(135deg, rgba(250, 204, 21, 0.22), rgba(250, 204, 21, 0.08));
+  border-color: rgba(250, 204, 21, 0.35);
+  color: #a16207;
+  box-shadow: 0 10px 20px rgba(250, 204, 21, 0.18), 0 1px 0 rgba(255, 255, 255, 0.45) inset;
+}
+.cartToast--warning::after {
+  background: linear-gradient(90deg, rgba(250, 204, 21, 0.95), rgba(250, 204, 21, 0.35));
 }
 
 .cartToast--danger .cartToastInner {
-  border-left: 3px solid #f97373;
+  border-color: rgba(249, 115, 115, 0.35);
+}
+.cartToast--danger .cartToastInner::before {
+  background: linear-gradient(135deg, rgba(249, 115, 115, 0.22), rgba(249, 115, 115, 0.08));
+  border-color: rgba(249, 115, 115, 0.35);
+  color: #dc2626;
+  box-shadow: 0 10px 20px rgba(249, 115, 115, 0.18), 0 1px 0 rgba(255, 255, 255, 0.45) inset;
+}
+.cartToast--danger::after {
+  background: linear-gradient(90deg, rgba(249, 115, 115, 0.95), rgba(249, 115, 115, 0.35));
 }
 
-@keyframes toastSlideIn {
+/* Animations */
+@keyframes toastPopIn {
   from {
     opacity: 0;
-    transform: translateY(6px);
+    transform: translateY(10px) scale(0.96);
+    filter: blur(1px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
+    filter: blur(0);
   }
+}
+
+@keyframes toastProgress {
+  from { transform: scaleX(1); opacity: 0.95; }
+  to { transform: scaleX(0); opacity: 0.35; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .cartToast,
+  .cartToast::after {
+    animation: none !important;
+  }
+}
+
+
+
+
+/* Make CTA look like a real button */
+.toastBtn{
+  border: 1px solid rgba(17,24,39,.14);
+  background: #ffffff;
+  color: #111827;
+  font-weight: 800;
+  border-radius: 12px;
+  padding: 9px 12px;
+  cursor: pointer;
+  transition: .18s ease;
+  box-shadow: 0 10px 18px rgba(0,0,0,.12);
+
+
+
+  color: #0b1220;
+  font-weight: 900;
+  border-radius: 12px;
+  padding: 9px 12px;
+  cursor: pointer;
+  transition: transform 0.18s ease, filter 0.18s ease, box-shadow 0.18s ease;
+
+
+
+    margin-bottom: 10px;
 }
 

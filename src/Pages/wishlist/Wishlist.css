@@ -238,3 +238,9 @@ a { text-decoration: none; }
   justify-content: space-between;
   gap: 16px;
 }
+
+
+
+.wishImg img{
+  object-fit: contain !important;
+}

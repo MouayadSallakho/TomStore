@@ -914,3 +914,7 @@
   }
 
 }
+
+.product-card img{
+  object-fit: contain !important;
+}
