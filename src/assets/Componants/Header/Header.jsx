@@ -294,7 +294,7 @@ export default function Header() {
     <header>
       {/* ========================= */}
       {/* ✅ DESKTOP HEADER (≥992px) */}
-      {/* ========================= */}
+
       <div
         data-aos="fade-down"
         data-aos-offset="300"

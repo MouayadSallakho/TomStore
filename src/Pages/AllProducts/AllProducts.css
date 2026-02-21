@@ -918,3 +918,8 @@
 .product-card img{
   object-fit: contain !important;
 }
+
+.btnView{
+padding-top: 12px;
+    padding-bottom: 12px;
+}
