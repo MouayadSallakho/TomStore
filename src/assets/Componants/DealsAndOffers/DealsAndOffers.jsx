@@ -96,19 +96,17 @@ const DealsAndOffers = () => {
           </Col>
 
           <Col lg={9} className="rightBox col-md-8">
-            <Swiper
-              spaceBetween={0}
-              slidesPerView={1.5}
-              breakpoints={{
-                0: { slidesPerView: 1.7 },
-                568: { slidesPerView: 2.7 },
-                768: { slidesPerView: 2.7 },
-                992: { slidesPerView: 5 },
-              }}
-              pagination={true}
-              modules={[Pagination]}
-              className="mySwiper"
-            >
+<Swiper
+  spaceBetween={0}
+  slidesPerView={1.5}
+  breakpoints={{
+    0: { slidesPerView: 1.7 },
+    568: { slidesPerView: 2.7 },
+    768: { slidesPerView: 2.7 },
+    992: { slidesPerView: 5 },
+  }}
+  className="mySwiper"
+>
               {loading
                 ? Array.from({ length: 10 }).map((_, i) => (
                     <SwiperSlide key={`sk-${i}`}>

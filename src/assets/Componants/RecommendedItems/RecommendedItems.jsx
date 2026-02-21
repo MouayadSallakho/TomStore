@@ -89,8 +89,7 @@ const RecommendedItems = ({
         <div className="d-block d-lg-none">
           <Swiper
             spaceBetween={12}
-            modules={[Pagination]}
-            pagination={{ clickable: true }}
+    
 
             // ✅ IMPORTANT: stop click after drag
             preventClicks={true}

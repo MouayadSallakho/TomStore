@@ -73,7 +73,7 @@ const ShowProducts = ({ title, slug, bg}) => {
               slidesPerView={4} // ✅ 4 columns
               breakpoints={{
                 0: { slidesPerView: 1.7, grid: { rows: 2 } }, // small
-                568: { slidesPerView: 2.3, grid: { rows: 2 } }, // md
+                568: { slidesPerView: 2.4, grid: { rows: 2 } }, // md
                 768: { slidesPerView: 2.7, grid: { rows: 2 } }, // md
                 992: { slidesPerView: 4, grid: { rows: 2 } }, // lg => 8 items visible
               }}

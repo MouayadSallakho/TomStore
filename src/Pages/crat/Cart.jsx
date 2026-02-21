@@ -379,15 +379,14 @@ const Cart = () => {
             <Swiper
               modules={[Navigation, Pagination, Mousewheel, Keyboard]}
               spaceBetween={14}
-              navigation
-              pagination={{ clickable: true }}
+   
               mousewheel={{ forceToAxis: true }}
               keyboard={{ enabled: true }}
               breakpoints={{
-                0: { slidesPerView: 1.1 },
-                576: { slidesPerView: 2.1 },
+                0: { slidesPerView: 1.3 },
+                576: { slidesPerView: 2.3 },
                 768: { slidesPerView: 2.6 },
-                992: { slidesPerView: 3.1 },
+                992: { slidesPerView: 3.3 },
                 1200: { slidesPerView: 3.6 },
               }}
               className="savedSwiper"
